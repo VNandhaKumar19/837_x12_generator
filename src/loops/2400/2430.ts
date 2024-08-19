@@ -1,9 +1,10 @@
+import { LineAdjudicationInformation } from "../../models/request.model";
 import { formatObject } from "../../utils/global";
 
-export function generate2430(lineAdjudicationInfo: any) {
+export function generate2430(lineAdjudicationInfo: LineAdjudicationInformation) {
     let data: any = []
 
-    lineAdjudicationInfo.forEach((item: { otherPayerPrimaryIdentifier: any; serviceLinePaidAmount: any; serviceIdQualifier: any; procedureCode: any; procedureModifier: any[]; paidServiceUnitCount: any; claimAdjustmentInformation: any[]; adjudicationOrPaymentDate: any; }, i: any) => {
+    lineAdjudicationInfo.forEach((item) => {
         data.push({
             "Segment": "SVD",
             "otherPayerPrimaryIdentifier": item?.otherPayerPrimaryIdentifier ?? '',
@@ -29,7 +30,7 @@ export function generate2430(lineAdjudicationInfo: any) {
                 });
 
                 const adjustmentObj: any = {}
-                adj.adjustmentDetails.forEach((detail: { adjustmentReasonCode: string; adjustmentAmount: string; }, detailIndex: number) => {
+                adj.adjustmentDetails.forEach((detail, detailIndex: number) => {
                     adjustmentObj[`adjustmentReasonCode${detailIndex + 1}`] = detail?.adjustmentReasonCode ?? '';
                     adjustmentObj[`adjustmentAmount${detailIndex + 1}`] = detail?.adjustmentAmount ?? '0';
                     adjustmentObj[`adjustmentQuantity${detailIndex + 1}`] = '';

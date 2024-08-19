@@ -1,7 +1,8 @@
+import { Dependent } from "../../../models/request.model";
 import { formatObject } from "../../../utils/global";
 import { generate2010CA } from "./2010CA";
 
-export function generate2000C(dependent: any) {
+export function generate2000C(dependent: Dependent) {
     let data =
         [
             {

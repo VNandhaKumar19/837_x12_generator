@@ -1,6 +1,7 @@
+import { Dependent } from "../../../models/request.model";
 import { formatObject } from "../../../utils/global";
 
-export function generate2010CA(dependent: any) {
+export function generate2010CA(dependent: Dependent) {
     let data = [
         {
             "Segment": "PAT",

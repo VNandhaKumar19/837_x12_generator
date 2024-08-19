@@ -1,6 +1,7 @@
+import { ClaimInformation, Dependent, Subscriber } from "../../../models/request.model";
 import { formatObject } from "../../../utils/global";
 
-export function generate2010BA(subscriber: any, dependent: any, claimInformation: any) {
+export function generate2010BA(subscriber: Subscriber, dependent: Dependent, claimInformation: ClaimInformation) {
     let data = [
         {
             "Segment": "SBR",

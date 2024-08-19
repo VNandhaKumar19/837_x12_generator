@@ -1,7 +1,8 @@
 import { StringObject } from "../../models/common.model"
+import { ClaimInformation } from "../../models/request.model"
 import { formatObject } from "../../utils/global"
 
-export function generate2300(claimData: any) {
+export function generate2300(claimData: ClaimInformation) {
     const data: any = [
         {
             "Segment": "CLM",

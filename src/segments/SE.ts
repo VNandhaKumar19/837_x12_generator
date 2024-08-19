@@ -4,7 +4,7 @@
  * @param segmentsCount Total Segment Count
  * @returns SE segment string
  */
-export function generateSE(controlNumber: string, segmentsCount: any): string {
+export function generateSE(controlNumber: string, segmentsCount: Number): string {
     const data = {
         "Segment": "SE",
         "NumberOfIncludedSegments": segmentsCount,

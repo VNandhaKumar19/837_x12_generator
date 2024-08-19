@@ -1,8 +1,9 @@
+import { Attachment, ServiceLine } from "../../models/request.model";
 import { formatObject } from "../../utils/global";
 import { generate2430 } from "./2430";
 
 
-export function generate2400(serviceLine: any, index: any) {
+export function generate2400(serviceLine: ServiceLine, index: number) {
     const procedureModifiers = serviceLine?.procedureModifiers ? serviceLine?.procedureModifiers : serviceLine?.institutionalService?.procedureModifiers
 
     let data: any = [
@@ -36,7 +37,7 @@ export function generate2400(serviceLine: any, index: any) {
     const attachmentArray = serviceLine?.serviceLineSupplementalInformation
     if (attachmentArray && attachmentArray.length > 0) {
         // Loop through priorAuthArray and add REF segments
-        attachmentArray.forEach((item: any, i: any) => {
+        attachmentArray.forEach((item) => {
             data.push(patchAttachments(item));
         });
     }
@@ -45,7 +46,7 @@ export function generate2400(serviceLine: any, index: any) {
     const priorAuthArray = serviceLine?.serviceLineReferenceInformation?.priorAuthorization
     if (priorAuthArray && priorAuthArray.length > 0) {
         // Loop through priorAuthArray and add REF segments
-        priorAuthArray.forEach((item: { priorAuthorizationOrReferralNumber: any; }, i: any) => {
+        priorAuthArray.forEach((item) => {
             if (item?.priorAuthorizationOrReferralNumber) data.push(patchPriorAuth(item));
         });
     }
@@ -61,7 +62,7 @@ export function generate2400(serviceLine: any, index: any) {
     return formattedString;
 }
 
-function patchPriorAuth(serviceLine: { priorAuthorizationOrReferralNumber: any; }) {
+function patchPriorAuth(serviceLine: { priorAuthorizationOrReferralNumber: string; }) {
     const segment = {
         "Segment": "REF",
         "PriorAuthQualifier": 'G1',
@@ -70,7 +71,7 @@ function patchPriorAuth(serviceLine: { priorAuthorizationOrReferralNumber: any; 
     return segment;
 }
 
-function patchAttachments(attachment: { attachmentReportTypeCode: any; attachmentTransmissionCode: any; attachmentControlNumber: any; }) {
+function patchAttachments(attachment: Attachment) {
     const segment = {
         "Segment": "PWK",
         "AttachmentReportTypeCode": attachment?.attachmentReportTypeCode ?? '',

@@ -1,6 +1,7 @@
+import { OperatingPhysician } from "../../../models/request.model";
 import { formatObject } from "../../../utils/global";
 
-export function generate2310B(orderingProvider: any) {
+export function generate2310B(orderingProvider: OperatingPhysician) {
     let data: any = [
         {
             "Segment": "NM1",

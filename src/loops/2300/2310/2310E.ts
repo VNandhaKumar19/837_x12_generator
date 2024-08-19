@@ -1,6 +1,7 @@
+import { ServiceFacilityLocation } from "../../../models/request.model";
 import { formatObject } from "../../../utils/global";
 
-export function generate2310E(serviceFacilityLocation: any) {
+export function generate2310E(serviceFacilityLocation: ServiceFacilityLocation) {
     const data: any = [
         {
             "Segment": "NM1",

@@ -43,7 +43,7 @@ export function generate837I(payload: RequestBody, userName: string) {
         { type: 'BHT', value: generateBHT(payload?.controlNumber, date, time) },
         { type: '1000A', value: generate1000A(payload?.submitter) },
         { type: '1000B', value: generate1000B(payload?.receiver, payload?.tradingPartnerServiceId) },
-        { type: '2000A', value: generate2000A(billingProvider) },
+        { type: '2000A', value: billingProvider ? generate2000A(billingProvider) : '' },
         { type: '2000B', value: generate2000B(payload, payerAddress) },
         { type: '2000C', value: payload?.dependent ? generate2000C(payload?.dependent) : '' },
         { type: '2300', value: generate2300(payload?.claimInformation) },

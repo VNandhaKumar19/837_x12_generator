@@ -1,6 +1,7 @@
 import { Email, NumberString, RawDateString, RawHourString } from "./common.model";
 
 export type RequestBody = {
+    tradingPartnerName?: string;
     controlNumber: string,
     tradingPartnerServiceId: string,
     submitter: Submitter,
@@ -14,7 +15,8 @@ export type RequestBody = {
     supervising_same_as_rendering?: any
 }
 
-type ClaimInformation = {
+export type ClaimInformation = {
+    otherDiagnosisInformationList: any[];
     claimFilingCode: string,
     patientControlNumber: string,
     claimChargeAmount: NumberString,
@@ -37,88 +39,122 @@ type ClaimInformation = {
     admittingDiagnosis: AdmittingDiagnosis
 }
 
-type ClaimDateInformation = {
+export type ClaimDateInformation = {
+    admissionDate?: RawDateString;
     statementBeginDate: RawDateString,
     statementEndDate: RawDateString,
     dischargeHour: RawHourString,
     admissionDateAndHour: NumberString
 }
 
-type ClaimCodeInformation = {
+export type ClaimCodeInformation = {
     admissionTypeCode: string,
     patientStatusCode: string,
     admissionSourceCode: string
 }
 
-type ClaimSupplementalInformation = {
+export type ClaimSupplementalInformation = {
+    claimControlNumber: string;
     reportInformation: ReportInformation,
     priorAuthorizationNumber: string,
     autoAccidentState: string
 }
 
-type ReportInformation = {
+export type ReportInformation = {
     attachmentReportTypeCode: string,
     attachmentTransmissionCode: string,
     attachmentControlNumber: string
 }
 
-type PrincipalProcedureInformation = {
+export type PrincipalProcedureInformation = {
     qualifierCode: string
 }
 
-type ClaimPricingInformation = {
+export type ClaimPricingInformation = {
     pricingMethodologyCode: string
 }
 
-type ServiceFacilityLocation = {
+export type ServiceFacilityLocation = {
     address: Address,
     organizationName: string
 }
 
-type ServiceLines = Array<ServiceLine>;
+export type ServiceLines = Array<ServiceLine>;
 
-type ServiceLine = {
+export type ServiceLine = {
+    serviceLineReferenceInformation: { priorAuthorization: { priorAuthorizationOrReferralNumber: string }[] },
+    serviceLineSupplementalInformation: Attachment[],
+    serviceDate: RawDateString,
+    procedureModifiers: string[],
     assignedNumber: NumberString,
-    institutionalService: InstitutionalService
+    institutionalService: InstitutionalService,
+    lineAdjudicationInformation: LineAdjudicationInformation
 }
 
-type InstitutionalService = {
+export type LineAdjudicationInformation = {
+    otherPayerPrimaryIdentifier: string,
+    serviceLinePaidAmount: NumberString,
+    serviceIdQualifier: string,
+    procedureCode: string,
+    procedureModifier: string[],
+    paidServiceUnitCount: NumberString,
+    claimAdjustmentInformation: ClaimAdjustmentInformation,
+    adjudicationOrPaymentDate: RawDateString
+}[]
+
+export type ClaimAdjustmentInformation = {
+    adjustmentGroupCode: string,
+    adjustmentDetails: {
+        adjustmentReasonCode: string,
+        adjustmentAmount: string
+    }[]
+}[]
+
+export type Attachment = {
+    attachmentReportTypeCode: string,
+    attachmentTransmissionCode: string,
+    attachmentControlNumber: string
+}
+
+export type InstitutionalService = {
+    procedureModifiers: string[];
     serviceLineRevenueCode: string,
     lineItemChargeAmount: NumberString,
     measurementUnit: string,
     serviceUnitCount: NumberString
 }
 
-type PrincipalDiagnosis = {
+export type PrincipalDiagnosis = {
     qualifierCode: string,
     principalDiagnosisCode: string,
     presentOnAdmissionIndicator: string
 }
 
-type AdmittingDiagnosis = {
+export type AdmittingDiagnosis = {
     qualifierCode: string,
     admittingDiagnosisCode: string
 }
 
-type Submitter = {
+export type Submitter = {
     organizationName: string,
     taxId: string,
     contactInformation: ContactInformation
 }
 
-type ContactInformation = {
+export type ContactInformation = {
     name: string,
     phoneNumber: NumberString,
     email: Email,
     faxNumber: NumberString
 }
 
-type Receiver = {
+export type Receiver = {
     organizationName: string,
     taxId: string
 }
 
-type Subscriber = {
+export type Subscriber = {
+    groupNumber: string;
     memberId: string,
     paymentResponsibilityLevelCode: string,
     firstName: string,
@@ -128,7 +164,8 @@ type Subscriber = {
     address: Address
 }
 
-type Address = {
+export type Address = {
+    zipcode?: string;
     address1: string,
     city: string,
     state: string,
@@ -137,7 +174,8 @@ type Address = {
     countrySubDivisionCode?: string
 }
 
-type Dependent = {
+export type Dependent = {
+    address?: Address;
     gender: string,
     relationshipToSubscriberCode: string,
     firstName: string,
@@ -145,9 +183,10 @@ type Dependent = {
     dateOfBirth: string
 }
 
-type Providers = Array<Provider>;
+export type Providers = Array<Provider>;
 
-type Provider = {
+export type Provider = {
+    ssn?: string;
     providerType: string,
     npi: string,
     employerId: string,
@@ -159,7 +198,7 @@ type Provider = {
     stateLicenseNumber: string,
 }
 
-type OperatingPhysician = {
+export type OperatingPhysician = {
     organizationName: string,
     lastName: string,
     firstName: string,

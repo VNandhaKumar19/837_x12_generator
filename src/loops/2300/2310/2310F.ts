@@ -1,6 +1,7 @@
+import { Provider } from "../../../models/request.model";
 import { formatObject } from "../../../utils/global";
 
-export function generate2310F(referringProvider: any) {
+export function generate2310F(referringProvider: Provider) {
     const data: any[] = [
         {
             "Segment": "NM1",

@@ -1,8 +1,9 @@
+import { Provider } from "../../../models/request.model";
 import { formatObject } from "../../../utils/global";
 import { generate2010AA } from "./2010AA";
 
 
-export function generate2000A(provider: any) {
+export function generate2000A(provider: Provider) {
     let data = [
         {
             "Segment": "HL",

@@ -1,6 +1,7 @@
+import { Provider } from "../../../models/request.model";
 import { formatObject } from "../../../utils/global";
 
-export function generate2310A(attendingProvider: any) {
+export function generate2310A(attendingProvider: Provider) {
     let data: any = [
         {
             "Segment": "NM1",

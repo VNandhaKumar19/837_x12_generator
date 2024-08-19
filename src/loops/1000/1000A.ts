@@ -1,6 +1,7 @@
+import { Submitter } from "../../models/request.model";
 import { formatObject } from "../../utils/global";
 
-export function generate1000A(submitter: any): string {
+export function generate1000A(submitter: Submitter): string {
     const data = [
         {
           "Segment": "NM1",

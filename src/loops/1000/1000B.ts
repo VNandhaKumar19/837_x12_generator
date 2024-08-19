@@ -1,4 +1,6 @@
-export function generate1000B(receiver: any, tradingPartnerServiceId: any): string {
+import { Receiver } from "../../models/request.model";
+
+export function generate1000B(receiver: Receiver, tradingPartnerServiceId: string): string {
     const data = {
         "Segment": "NM1",
         "EntityIdentifierCode": "40",

@@ -1,9 +1,10 @@
+import { Address, RequestBody } from "../../../models/request.model";
 import { formatObject } from "../../../utils/global";
 import { generate2010BA } from "./2010BA";
 import { generate2010BB } from "./2010BB";
 
 
-export function generate2000B(claimData: any, payerAddress: any) {
+export function generate2000B(claimData: RequestBody, payerAddress: Address | null) {
     let data =
         [
             {

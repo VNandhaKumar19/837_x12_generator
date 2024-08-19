@@ -6,7 +6,7 @@
  * @param time Current Time
  * @returns GS segment string with specific values on each part of it
  */
-export function generateGS(username: string, GSCtrlNumber: any, date: string, time: string): string {
+export function generateGS(username: string, GSCtrlNumber: string, date: string, time: string): string {
     const data = {
         "Segment": "GS",
         "FunctionalIdentifierCode": "HC",

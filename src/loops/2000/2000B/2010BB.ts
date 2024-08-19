@@ -1,12 +1,13 @@
+import { Address, RequestBody } from "../../../models/request.model";
 import { formatObject } from "../../../utils/global";
 
-export function generate2010BB(claimData: any, payerAddress: any) {
+export function generate2010BB(claimData: RequestBody, payerAddress: Address | null) {
     let data: any = [
         {
             "Segment": "NM1",
             "EntityIdentifierCode": "PR",
             "EntityTypeQualifier": "2",
-            "PayerName": claimData?.tradingPartnerName,
+            "PayerName": claimData?.tradingPartnerName ?? '',
             "Unknown1": '',
             "Unknown2": '',
             "Unknown3": '',

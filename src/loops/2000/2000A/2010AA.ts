@@ -1,6 +1,7 @@
+import { Provider } from "../../../models/request.model";
 import { formatObject } from "../../../utils/global";
 
-export function generate2010AA(provider: any) {
+export function generate2010AA(provider: Provider) {
     let data = [
         {
             "Segment": "PRV",
