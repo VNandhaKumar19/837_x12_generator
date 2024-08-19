@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "module": "ESNext",
+        "esModuleInterop": true,
+        "target": "ESNext",
+        "sourceMap": false,
+        "outDir": "dist",
+        "strict": true,
+        "types": [],
+        "declaration": true
+    },
+    "lib": [
+        "es2015"
+    ],
+    "include": [
+        "src/**/*",
+        "main.ts"
+    ]
+}
