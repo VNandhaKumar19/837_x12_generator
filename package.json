@@ -1,5 +1,5 @@
 {
-  "name": "837_x12_generator",
+  "name": "837_X12_generator",
   "version": "1.0.0",
   "description": "X12 Generator of 837 and 837i for medical claim submittion",
   "main": "main.ts",
