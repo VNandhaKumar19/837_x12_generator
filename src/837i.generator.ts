@@ -22,15 +22,15 @@ import { generateST } from "./segments/ST";
 import { getControlNumber, getCurrentDate, getCurrentTime } from "./utils/global";
 import { validateRequestBody } from "./utils/validator";
 
-export function generate837I(payload: RequestBody, userName: string) {
+export function generate837I(payload: RequestBody, userName: string, isaCtrlNumber?: number, gsCtrlNumber?: number) {
 
     if (!validateRequestBody(payload)) {
         throw Error('Invalid Request Body');
     }
 
     const payerAddress = payload?.payerAddress ?? null;
-    const ISACtrlNumber = getControlNumber();
-    const GSCtrlNumber = getControlNumber();
+    const ISACtrlNumber = isaCtrlNumber?.toString() ?? getControlNumber();
+    const GSCtrlNumber = gsCtrlNumber?.toString() ?? getControlNumber();
     const renderingProvider = payload.providers.find((pro) => pro.providerType == 'RenderingProvider');
     const referringProvider = payload.providers.find((pro) => pro.providerType == 'ReferringProvider');
     const supervisingProvider = payload.providers.find((pro) => pro.providerType == 'SupervisingProvider');
