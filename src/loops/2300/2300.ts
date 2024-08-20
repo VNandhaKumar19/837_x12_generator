@@ -72,7 +72,7 @@ export function generate2300(claimData: ClaimInformation) {
         })
     }
 
-    if (claimData?.otherDiagnosisInformationList?.length > 0) {
+    if (claimData?.otherDiagnosisInformationList && claimData?.otherDiagnosisInformationList?.length > 0) {
         data.push(getHealthCareCodeInformation(claimData?.otherDiagnosisInformationList ?? []));
     }
 
