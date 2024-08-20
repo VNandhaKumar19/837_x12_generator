@@ -169,7 +169,7 @@ export type Address = {
     address1: string,
     city: string,
     state: string,
-    postalCode: string,
+    postalCode?: string,
     countryCode?: string,
     countrySubDivisionCode?: string
 }

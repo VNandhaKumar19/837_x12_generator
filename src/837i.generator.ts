@@ -20,8 +20,14 @@ import { generateISA } from "./segments/ISA";
 import { generateSE } from "./segments/SE";
 import { generateST } from "./segments/ST";
 import { getControlNumber, getCurrentDate, getCurrentTime } from "./utils/global";
+import { validateRequestBody } from "./utils/validator";
 
 export function generate837I(payload: RequestBody, userName: string) {
+
+    if (!validateRequestBody(payload)) {
+        throw Error('Invalid Request Body');
+    }
+
     const payerAddress = payload?.payerAddress ?? null;
     const ISACtrlNumber = getControlNumber();
     const GSCtrlNumber = getControlNumber();
