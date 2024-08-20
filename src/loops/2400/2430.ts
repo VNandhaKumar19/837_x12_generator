@@ -1,8 +1,20 @@
 import { LineAdjudicationInformation } from "../../models/request.model";
 import { formatObject } from "../../utils/global";
 
+/**
+ * The function `generate2430` in TypeScript generates a formatted string based on input
+ * LineAdjudicationInformation data.
+ * @param {LineAdjudicationInformation} lineAdjudicationInfo - The `lineAdjudicationInfo` parameter in
+ * the `generate2430` function is expected to be an array of objects containing information about line
+ * adjudication. Each object should have the following properties:
+ * @returns The `generate2430` function is returning a formatted string that contains data from the
+ * `LineAdjudicationInformation` object provided as input. The data is structured into segments such as
+ * "SVD", "CAS", and "DTP" with specific fields and values based on the properties of the
+ * `LineAdjudicationInformation` object. The final formatted string is created by mapping each object
+ * in
+ */
 export function generate2430(lineAdjudicationInfo: LineAdjudicationInformation) {
-    let data: any = []
+    const data: any = []
 
     lineAdjudicationInfo.forEach((item) => {
         data.push({

@@ -1,5 +1,11 @@
 export type NumberString = `${number}`;
 
+/**
+ * The `StringObject` type in TypeScript represents an object with string keys and values of any type.
+ * @property {any} [key: any] - The `StringObject` type you have defined is an object type with string
+ * keys and values of any type. This means that you can store any type of value with a string key in an
+ * object of type `StringObject`.
+ */
 export type StringObject = {
     [key: string]: any
 }

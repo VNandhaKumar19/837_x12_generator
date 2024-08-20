@@ -1,8 +1,18 @@
 import { Provider } from "../../../models/request.model";
 import { formatObject } from "../../../utils/global";
 
+/**
+ * The function `generate2010AA` in TypeScript generates a formatted string based on provider
+ * information for a specific data format.
+ * @param {Provider} provider - The `provider` parameter is an object that contains information about a
+ * healthcare provider. It includes the following properties:
+ * @returns The function `generate2010AA` is returning a formatted string that represents data related
+ * to a provider in the 2010AA format. The data includes segments such as PRV, NM1, N3, N4, and REF,
+ * each containing specific information about the provider such as provider code, specialty
+ * information, name, address, NPI, and reference identification. The data objects are formatted
+ */
 export function generate2010AA(provider: Provider) {
-    let data = [
+    const data = [
         {
             "Segment": "PRV",
             "ProviderCode": "BI",
@@ -31,13 +41,11 @@ export function generate2010AA(provider: Provider) {
             "StateCode": provider?.address?.state ?? '',
             "PostalCode": provider?.address?.postalCode ?? '',
         },
-
         {
             "Segment": "REF",
             "ReferenceIdentificationQualifier": provider?.employerId ? "EI" : 'SY',
             "ReferenceIdentification": (provider?.employerId ? provider?.employerId : provider?.ssn) ?? ''
-        },
-
+        }
     ]
 
     // Format each object and join with '~'

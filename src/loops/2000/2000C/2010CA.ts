@@ -1,8 +1,18 @@
 import { Dependent } from "../../../models/request.model";
 import { formatObject } from "../../../utils/global";
 
+/**
+ * The function `generate2010CA` in TypeScript generates a formatted string based on the provided
+ * dependent data.
+ * @param {Dependent} dependent - The `dependent` parameter in the `generate2010CA` function is an
+ * object that represents information about a dependent. It contains the following properties:
+ * @returns The function `generate2010CA` returns a formatted string that represents data related to a
+ * dependent. The data includes segments such as "PAT", "NM1", "N3", "N4", and "DMG" with corresponding
+ * information like relationship code, name, address, date of birth, and gender. The data objects are
+ * formatted and joined with a tilde (~) separator before being
+ */
 export function generate2010CA(dependent: Dependent) {
-    let data = [
+    const data = [
         {
             "Segment": "PAT",
             "IndividualRelationshipCode": dependent ? dependent?.relationshipToSubscriberCode : '18',

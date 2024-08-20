@@ -2,6 +2,19 @@ import { AdmittingDiagnosis, Attachment, ClaimAdjustmentInformation, ClaimCodeIn
 import { isOptional, isString, isAny, isNumberString, isEmail, isArray, isRawDateString, isRawHourString, isNumber } from './validators.util';
 
 // Validation function for RequestBody
+/**
+ * The function `validateRequestBody` in TypeScript validates the structure and content of a request
+ * body object.
+ * @param {any} body - The `validateRequestBody` function is a TypeScript function that takes an object
+ * `body` as a parameter and checks if it conforms to the `RequestBody` type. The function performs
+ * various validation checks on different properties of the `body` object using helper functions like
+ * `isOptional`, `isString`, `
+ * @returns The `validateRequestBody` function is returning a boolean value indicating whether the
+ * `body` parameter passed to the function matches the structure defined by the `RequestBody` type. The
+ * function checks various properties of the `body` object against specific validation functions and
+ * conditions, and returns `true` if all validations pass, indicating that the `body` object is
+ * considered a valid `RequestBody`.
+ */
 export function validateRequestBody(body: any): body is RequestBody {
     return (
         isOptional(isString)(body.tradingPartnerName) &&
