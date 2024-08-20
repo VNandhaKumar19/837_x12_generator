@@ -22,6 +22,29 @@ import { generateST } from "./segments/ST";
 import { getControlNumber, getCurrentDate, getCurrentTime } from "./utils/global";
 import { validateRequestBody } from "./utils/validator";
 
+/**
+ * The function `generate837I` generates an 837I X12 transaction based on the provided payload and
+ * other optional parameters.
+ * @param {RequestBody} payload - The `payload` parameter in the `generate837I` function represents the
+ * request body containing information needed to generate an 837I transaction. This information
+ * includes details about providers, claim information, service lines, submitter, receiver, trading
+ * partner service ID, dependent, and more. The function processes this
+ * @param {string} userName - The `userName` parameter in the `generate837I` function is a string that
+ * represents the user name associated with the generation of the 837I payload. It is used within the
+ * function to generate various segments of the X12 data interchange format for healthcare
+ * transactions.
+ * @param {number} [isaCtrlNumber] - The `isaCtrlNumber` parameter in the `generate837I` function is an
+ * optional parameter of type number. It is used to specify the ISA control number for the X12
+ * transaction set. If provided, it will be used as the ISA control number; otherwise, a default
+ * control number will be
+ * @param {number} [gsCtrlNumber] - The `gsCtrlNumber` parameter in the `generate837I` function is an
+ * optional parameter of type number. It is used to specify the GS control number for the X12
+ * transaction set. If a value is provided for `gsCtrlNumber`, it will be used as the GS control
+ * number.
+ * @returns The function `generate837I` returns a string that represents an electronic data interchange
+ * (EDI) document in X12 format. The document contains various segments such as ISA, GS, ST, BHT,
+ * 1000A, 1000B, 2000A, 2000B, 2300, 2310A, 2310B, 2310D,
+ */
 export function generate837I(payload: RequestBody, userName: string, isaCtrlNumber?: number, gsCtrlNumber?: number) {
 
     if (!validateRequestBody(payload)) {
