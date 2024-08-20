@@ -1,1 +1,1 @@
-export { generate837I } from './src/837i.generator';
+export { generate837I } from './dist/837i.generator';
