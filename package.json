@@ -1,7 +1,7 @@
 {
-  "name": "837_X12_generator",
+  "name": "x12_837_generator",
   "version": "1.0.0",
-  "description": "X12 Generator of 837 and 837i for medical claim submittion",
+  "description": "X12 Generator of 837 and 837i for medical claim submission",
   "main": "main.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
