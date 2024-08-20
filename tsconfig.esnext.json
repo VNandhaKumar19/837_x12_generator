@@ -2,6 +2,8 @@
     "extends": "./tsconfig.json",
     "compilerOptions": {
         "outDir": "dist/esnext",
-        "module": "ESNext"
+        "module": "ESNext",
+        "target": "ESNext",
+        "noEmit": false // Ensure that TypeScript emits compiled code
     }
 }
