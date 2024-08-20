@@ -2,7 +2,7 @@ import { OperatingPhysician } from "../../../models/request.model";
 import { formatObject } from "../../../utils/global";
 
 export function generate2310B(orderingProvider: OperatingPhysician) {
-    let data: any = [
+    const data: any = [
         {
             "Segment": "NM1",
             "EntityIdentifierCode": "72",

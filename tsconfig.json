@@ -7,7 +7,8 @@
         "outDir": "dist",
         "strict": true,
         "types": [],
-        "declaration": true
+        "declaration": true,
+        "noEmit": true,  // Ensures TypeScript does not emit any compiled code, only does type checking
     },
     "lib": [
         "es2015"
