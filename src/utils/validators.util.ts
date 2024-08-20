@@ -2,6 +2,7 @@ import { DateString, Email, RawDateString, RawHourString } from "../models/commo
 
 export const isString = (value: any): value is string => typeof value === 'string';
 export const isNumberString = (value: any): value is string => typeof value === 'string' && /^\d+$/.test(value);
+export const isNumber = (value: any): value is string => typeof value === 'number';
 export const isEmail = (value: any): value is Email => isString(value) && /\S+@\S+\.\S+/.test(value);
 export const isArray = <T>(value: any, validator: (item: any) => item is T): value is T[] => Array.isArray(value) && value.every(validator);
 export const isOptional = <T>(validator: (value: any) => value is T) => (value: any): value is T | undefined => value === undefined || validator(value);

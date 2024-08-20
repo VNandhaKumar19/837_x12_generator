@@ -7,32 +7,32 @@ export type RequestBody = {
     submitter: Submitter,
     receiver: Receiver,
     subscriber: Subscriber,
-    dependent: Dependent,
+    dependent?: Dependent,
     providers: Providers,
-    operatingPhysician: OperatingPhysician,
+    operatingPhysician?: OperatingPhysician,
     claimInformation: ClaimInformation,
     payerAddress?: Address,
     supervising_same_as_rendering?: any
 }
 
 export type ClaimInformation = {
-    otherDiagnosisInformationList: any[];
+    otherDiagnosisInformationList?: any[];
     claimFilingCode: string,
     patientControlNumber: string,
     claimChargeAmount: NumberString,
     placeOfServiceCode: NumberString,
     claimFrequencyCode: string,
-    signatureIndicator: string,
+    signatureIndicator?: string,
     planParticipationCode: string,
     releaseInformationCode: string,
     benefitsAssignmentCertificationIndicator: string,
-    billingNote: string,
+    billingNote?: string,
     claimDateInformation: ClaimDateInformation,
     claimCodeInformation: ClaimCodeInformation,
-    claimSupplementalInformation: ClaimSupplementalInformation,
-    conditionCodes: Array<string>,
-    principalProcedureInformation: PrincipalProcedureInformation,
-    claimPricingInformation: ClaimPricingInformation,
+    claimSupplementalInformation?: ClaimSupplementalInformation,
+    conditionCodes?: Array<string>,
+    principalProcedureInformation?: PrincipalProcedureInformation,
+    claimPricingInformation?: ClaimPricingInformation,
     serviceFacilityLocation: ServiceFacilityLocation,
     serviceLines: ServiceLines,
     principalDiagnosis: PrincipalDiagnosis,
@@ -82,24 +82,25 @@ export type ServiceFacilityLocation = {
 export type ServiceLines = Array<ServiceLine>;
 
 export type ServiceLine = {
-    serviceLineReferenceInformation: { priorAuthorization: { priorAuthorizationOrReferralNumber: string }[] },
-    serviceLineSupplementalInformation: Attachment[],
+    serviceLineReferenceInformation?: { priorAuthorization: { priorAuthorizationOrReferralNumber: string }[] },
+    serviceLineSupplementalInformation?: Attachment[],
     serviceDate: RawDateString,
-    procedureModifiers: string[],
-    assignedNumber: NumberString,
+    serviceDateEnd?: RawDateString,
+    procedureModifiers?: string[],
+    assignedNumber?: NumberString,
     institutionalService: InstitutionalService,
-    lineAdjudicationInformation: LineAdjudicationInformation
+    lineAdjudicationInformation?: LineAdjudicationInformation
 }
 
 export type LineAdjudicationInformation = {
     otherPayerPrimaryIdentifier: string,
-    serviceLinePaidAmount: NumberString,
+    serviceLinePaidAmount: NumberString | number,
     serviceIdQualifier: string,
     procedureCode: string,
     procedureModifier: string[],
     paidServiceUnitCount: NumberString,
     claimAdjustmentInformation: ClaimAdjustmentInformation,
-    adjudicationOrPaymentDate: RawDateString
+    adjudicationOrPaymentDate: string
 }[]
 
 export type ClaimAdjustmentInformation = {
@@ -117,51 +118,57 @@ export type Attachment = {
 }
 
 export type InstitutionalService = {
-    procedureModifiers: string[];
-    serviceLineRevenueCode: string,
-    lineItemChargeAmount: NumberString,
+    procedureIdentifier?: string,
+    procedureCode?: string,
+    procedureModifiers?: string[],
+    serviceLineRevenueCode?: string,
+    lineItemChargeAmount: NumberString | Number,
     measurementUnit: string,
-    serviceUnitCount: NumberString
+    serviceUnitCount: NumberString | Number,
+    compositeDiagnosisCodePointers?: {
+        diagnosisCodePointers: string[]
+    }
 }
 
 export type PrincipalDiagnosis = {
     qualifierCode: string,
     principalDiagnosisCode: string,
-    presentOnAdmissionIndicator: string
+    presentOnAdmissionIndicator?: string
 }
 
 export type AdmittingDiagnosis = {
     qualifierCode: string,
-    admittingDiagnosisCode: string
+    admittingDiagnosisCode?: string
 }
 
 export type Submitter = {
     organizationName: string,
-    taxId: string,
+    taxId?: string,
     contactInformation: ContactInformation
 }
 
 export type ContactInformation = {
     name: string,
-    phoneNumber: NumberString,
-    email: Email,
-    faxNumber: NumberString
+    phoneNumber?: NumberString,
+    email?: Email,
+    faxNumber?: NumberString
 }
 
 export type Receiver = {
     organizationName: string,
-    taxId: string
+    taxId?: string
 }
 
 export type Subscriber = {
-    groupNumber: string;
+    groupNumber?: string;
     memberId: string,
     paymentResponsibilityLevelCode: string,
     firstName: string,
     lastName: string,
     gender: string,
     dateOfBirth: string,
-    address: Address
+    address: Address,
+    policyNumber: string
 }
 
 export type Address = {
@@ -189,13 +196,14 @@ export type Provider = {
     ssn?: string;
     providerType: string,
     npi: string,
-    employerId: string,
+    employerId?: string,
     organizationName?: string,
     address?: Address,
     firstName?: string,
     lastName?: string,
     taxonomyCode?: string,
-    stateLicenseNumber: string,
+    stateLicenseNumber?: string,
+    contactInformation?: ContactInformation
 }
 
 export type OperatingPhysician = {

@@ -1,5 +1,5 @@
 import { AdmittingDiagnosis, Attachment, ClaimAdjustmentInformation, ClaimCodeInformation, ClaimDateInformation, ClaimPricingInformation, ClaimSupplementalInformation, InstitutionalService, LineAdjudicationInformation, PrincipalDiagnosis, PrincipalProcedureInformation, ReportInformation, ServiceFacilityLocation, ServiceLine, ServiceLines, Address, ClaimInformation, ContactInformation, Dependent, OperatingPhysician, Provider, Providers, Receiver, RequestBody, Submitter, Subscriber } from "../models/request.model";
-import { isOptional, isString, isAny, isNumberString, isEmail, isArray, isRawDateString, isRawHourString } from './validators.util';
+import { isOptional, isString, isAny, isNumberString, isEmail, isArray, isRawDateString, isRawHourString, isNumber } from './validators.util';
 
 // Validation function for RequestBody
 export function validateRequestBody(body: any): body is RequestBody {
@@ -10,9 +10,9 @@ export function validateRequestBody(body: any): body is RequestBody {
         validateSubmitter(body.submitter) &&
         validateReceiver(body.receiver) &&
         validateSubscriber(body.subscriber) &&
-        validateDependent(body.dependent) &&
+        isOptional(validateDependent)(body.dependent) &&
         validateProviders(body.providers) &&
-        validateOperatingPhysician(body.operatingPhysician) &&
+        isOptional(validateOperatingPhysician)(body.operatingPhysician) &&
         validateClaimInformation(body.claimInformation) &&
         isOptional(validateAddress)(body.payerAddress) &&
         isOptional(isAny)(body.supervising_same_as_rendering)
@@ -22,7 +22,7 @@ export function validateRequestBody(body: any): body is RequestBody {
 function validateSubmitter(submitter: any): submitter is Submitter {
     return (
         isString(submitter.organizationName) &&
-        isString(submitter.taxId) &&
+        isOptional(isString)(submitter.taxId) &&
         validateContactInformation(submitter.contactInformation)
     );
 }
@@ -30,29 +30,30 @@ function validateSubmitter(submitter: any): submitter is Submitter {
 function validateContactInformation(info: any): info is ContactInformation {
     return (
         isString(info.name) &&
-        isNumberString(info.phoneNumber) &&
-        isEmail(info.email) &&
-        isNumberString(info.faxNumber)
+        isOptional(isNumberString)(info.phoneNumber) &&
+        isOptional(isEmail)(info.email) &&
+        isOptional(isNumberString)(info.faxNumber)
     );
 }
 
 function validateReceiver(receiver: any): receiver is Receiver {
     return (
         isString(receiver.organizationName) &&
-        isString(receiver.taxId)
+        isOptional(isString)(receiver.taxId)
     );
 }
 
 function validateSubscriber(subscriber: any): subscriber is Subscriber {
     return (
-        isString(subscriber.groupNumber) &&
+        isOptional(isString)(subscriber.groupNumber) &&
         isString(subscriber.memberId) &&
         isString(subscriber.paymentResponsibilityLevelCode) &&
         isString(subscriber.firstName) &&
         isString(subscriber.lastName) &&
         isString(subscriber.gender) &&
         isString(subscriber.dateOfBirth) &&
-        validateAddress(subscriber.address)
+        validateAddress(subscriber.address) &&
+        isOptional(isString)(subscriber.policyNumber)
     );
 }
 
@@ -76,13 +77,14 @@ function validateProvider(provider: any): provider is Provider {
         isOptional(isString)(provider.ssn) &&
         isString(provider.providerType) &&
         isString(provider.npi) &&
-        isString(provider.employerId) &&
+        isOptional(isString)(provider.employerId) &&
         isOptional(isString)(provider.organizationName) &&
         isOptional(validateAddress)(provider.address) &&
         isOptional(isString)(provider.firstName) &&
         isOptional(isString)(provider.lastName) &&
         isOptional(isString)(provider.taxonomyCode) &&
-        isString(provider.stateLicenseNumber)
+        isOptional(isString)(provider.stateLicenseNumber) &&
+        isOptional(validateContactInformation)(provider.contactInformation)
     );
 }
 
@@ -97,28 +99,36 @@ function validateOperatingPhysician(physician: any): physician is OperatingPhysi
 
 function validateClaimInformation(claimInfo: any): claimInfo is ClaimInformation {
     return (
-        isArray(claimInfo.otherDiagnosisInformationList, isAny) &&
+        isOptional(validateOtherDiagnosisInformationList)(claimInfo.otherDiagnosisInformationList) &&
         isString(claimInfo.claimFilingCode) &&
         isString(claimInfo.patientControlNumber) &&
         isNumberString(claimInfo.claimChargeAmount) &&
         isNumberString(claimInfo.placeOfServiceCode) &&
         isString(claimInfo.claimFrequencyCode) &&
-        isString(claimInfo.signatureIndicator) &&
+        isOptional(isString)(claimInfo.signatureIndicator) &&
         isString(claimInfo.planParticipationCode) &&
         isString(claimInfo.releaseInformationCode) &&
         isString(claimInfo.benefitsAssignmentCertificationIndicator) &&
-        isString(claimInfo.billingNote) &&
+        isOptional(isString)(claimInfo.billingNote) &&
         validateClaimDateInformation(claimInfo.claimDateInformation) &&
         validateClaimCodeInformation(claimInfo.claimCodeInformation) &&
-        validateClaimSupplementalInformation(claimInfo.claimSupplementalInformation) &&
-        isArray(claimInfo.conditionCodes, isString) &&
-        validatePrincipalProcedureInformation(claimInfo.principalProcedureInformation) &&
-        validateClaimPricingInformation(claimInfo.claimPricingInformation) &&
+        isOptional(validateClaimSupplementalInformation)(claimInfo.claimSupplementalInformation) &&
+        isOptional(validateConditionCodes)(claimInfo.conditionCodes) &&
+        isOptional(validatePrincipalProcedureInformation)(claimInfo.principalProcedureInformation) &&
+        isOptional(validateClaimPricingInformation)(claimInfo.claimPricingInformation) &&
         validateServiceFacilityLocation(claimInfo.serviceFacilityLocation) &&
         validateServiceLines(claimInfo.serviceLines) &&
         validatePrincipalDiagnosis(claimInfo.principalDiagnosis) &&
         validateAdmittingDiagnosis(claimInfo.admittingDiagnosis)
     );
+}
+
+function validateOtherDiagnosisInformationList(otherDiagnosisInformationList: any): otherDiagnosisInformationList is Array<any> {
+    return (isArray(otherDiagnosisInformationList, isAny))
+}
+
+function validateConditionCodes(conditionCodes: any): conditionCodes is Array<string> {
+    return (isArray(conditionCodes, isString))
 }
 
 function validateClaimDateInformation(claimDateInformation: any): claimDateInformation is ClaimDateInformation {
@@ -177,27 +187,34 @@ function validatePrincipalDiagnosis(principalDiagnosis: any): principalDiagnosis
     return (
         isString(principalDiagnosis.qualifierCode) &&
         isString(principalDiagnosis.principalDiagnosisCode) &&
-        isString(principalDiagnosis.presentOnAdmissionIndicator)
+        isOptional(isString)(principalDiagnosis.presentOnAdmissionIndicator)
     );
 }
 
 function validateAdmittingDiagnosis(admittingDiagnosis: any): admittingDiagnosis is AdmittingDiagnosis {
     return (
         isString(admittingDiagnosis.admittingDiagnosis) &&
-        isString(admittingDiagnosis.admittingDiagnosisCode)
+        isOptional(isString)(admittingDiagnosis.admittingDiagnosisCode)
     )
 }
 
 function validateServiceLine(serviceLine: any): serviceLine is ServiceLine {
     return (
-        validateServiceLineReferenceInformation(serviceLine.serviceLineReferenceInformation) &&
-        isArray(serviceLine.serviceLineSupplementalInformation, validateServiceLineSupplementalInformation) &&
+        isOptional(validateServiceLineReferenceInformation)(serviceLine.serviceLineReferenceInformation) &&
+        isOptional(validateServiceLineSupplementalInformationArray)(serviceLine.serviceLineSupplementalInformation) &&
         isRawDateString(serviceLine.serviceDate) &&
-        isArray(serviceLine.procedureModifiers, isString) &&
-        isNumberString(serviceLine.assignedNumber) &&
+        isOptional(isRawDateString)(serviceLine.serviceDateEnd) &&
+        isOptional(validateProcedureModifiers)(serviceLine.procedureModifiers) &&
+        isOptional(isNumberString)(serviceLine.assignedNumber) &&
         validateInstitutionalService(serviceLine.institutionalService) &&
-        validateLineAdjudicationInformation(serviceLine.lineAdjudicationInformation)
+        isOptional(validateLineAdjudicationInformation)(serviceLine.lineAdjudicationInformation)
     );
+}
+
+function validateServiceLineSupplementalInformationArray(serviceLineSupplementalInformation: any): serviceLineSupplementalInformation is Array<Attachment> {
+    return (
+        isArray(serviceLineSupplementalInformation, validateServiceLineSupplementalInformation)
+    )
 }
 
 function validateServiceLineReferenceInformation(serviceLineReferenceInformation: any): serviceLineReferenceInformation is { priorAuthorization: { priorAuthorizationOrReferralNumber: string }[] } {
@@ -222,24 +239,47 @@ function validateServiceLineSupplementalInformation(serviceLineSupplementalInfor
 
 function validateInstitutionalService(institutionalService: any): institutionalService is InstitutionalService {
     return (
-        isArray(institutionalService.procedureModifiers, isString) &&
+        isOptional(isString)(institutionalService.procedureIdentifier) &&
+        isOptional(isString)(institutionalService.procedureCode) &&
+        isOptional(validateProcedureModifiers)(institutionalService.procedureModifiers) &&
         isString(institutionalService.serviceLineRevenueCode) &&
-        isNumberString(institutionalService.lineItemChargeAmount) &&
+        (isNumberString(institutionalService.lineItemChargeAmount) || isNumber(institutionalService.lineItemChargeAmount)) &&
         isString(institutionalService.measurementUnit) &&
-        isNumberString(institutionalService.serviceUnitCount)
+        (isNumberString(institutionalService.serviceUnitCount) || isNumber(institutionalService.serviceUnitCount)) &&
+        isOptional(validateCompositeDiagnosisCodePointers)(institutionalService.compositeDiagnosisCodePointers)
+    )
+}
+
+function validateProcedureModifiers(value: any): value is string[] {
+    return (
+        isArray(value, isString)
+    )
+};
+
+function validateCompositeDiagnosisCodePointers(compositeDiagnosisCodePointers: any): compositeDiagnosisCodePointers is {
+    diagnosisCodePointers: string[]
+} {
+    return (
+        validateDiagnosisCodePointers(compositeDiagnosisCodePointers.diagnosisCodePointers)
+    )
+}
+
+function validateDiagnosisCodePointers(diagnosisCodePointers: any): diagnosisCodePointers is string[] {
+    return (
+        isArray(diagnosisCodePointers, isString)
     )
 }
 
 function validateLineAdjudicationInformation(lineAdjudicationInformation: any): lineAdjudicationInformation is LineAdjudicationInformation {
     return (
         isString(lineAdjudicationInformation.otherPayerPrimaryIdentifier) &&
-        isNumberString(lineAdjudicationInformation.serviceLinePaidAmount) &&
+        (isNumberString(lineAdjudicationInformation.serviceLinePaidAmount) || isNumber(lineAdjudicationInformation.serviceLinePaidAmount)) &&
         isString(lineAdjudicationInformation.serviceIdQualifier) &&
         isString(lineAdjudicationInformation.procedureCode) &&
         isArray(lineAdjudicationInformation.procedureModifier, isString) &&
         isNumberString(lineAdjudicationInformation.paidServiceUnitCount) &&
         validateClaimAdjustmentInformation(lineAdjudicationInformation.claimAdjustmentInformation) &&
-        isRawDateString(lineAdjudicationInformation.adjudicationOrPaymentDate)
+        isString(lineAdjudicationInformation.adjudicationOrPaymentDate)
     );
 }
 
