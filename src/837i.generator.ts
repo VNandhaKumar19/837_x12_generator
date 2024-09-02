@@ -91,10 +91,17 @@ export function generate837I(payload: RequestBody, userName: string, isaCtrlNumb
     }
 
     x12DataArray.push(
-        { type: 'SE', value: generateSE(payload?.controlNumber, 32) },
+        { type: 'SE', value: generateSE(payload?.controlNumber, getSegmentsCount(x12DataArray)) },
         { type: 'GE', value: generateGE(GSCtrlNumber) },
         { type: 'IEA', value: generateIEA(ISACtrlNumber) },
     )
 
     return x12DataArray.map(segment => segment.value).join('').toString();
+}
+
+
+function getSegmentsCount(x12DataArray: any[]): number {
+    const inputString =  x12DataArray.map(segment => segment.value).join('').toString();
+    const segmentCount: number = inputString.split('~').filter(segment => segment.trim() !== '').length;
+    return segmentCount;
 }
