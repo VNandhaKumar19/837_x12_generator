@@ -3,10 +3,11 @@
         "esModuleInterop": true,
         "sourceMap": false,
         "strict": true,
-        "types": [],
+        "types": ["node"],
         "declaration": true,
         "lib": [
-            "es2017"
+            "ESNext",
+            "ES2015"
         ],
     },
     "include": [

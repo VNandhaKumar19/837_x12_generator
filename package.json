@@ -1,11 +1,13 @@
 {
   "name": "x12_837_generator",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "X12 Generator of 837 and 837i for medical claim submission",
   "main": "dist/cjs/main.js",
   "module": "dist/esnext/main.js",
   "types": "dist/esnext/main.d.ts",
   "scripts": {
+    "start": "npm run build && node dist/cjs/test.js",
+    "start:dev": "nodemon --exec ts-node src/test.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:esnext": "tsc --project tsconfig.esnext.json",
     "build:cjs": "npx babel src --extensions \".ts,.tsx\" --out-dir dist/cjs --presets @babel/preset-env,@babel/preset-typescript",
