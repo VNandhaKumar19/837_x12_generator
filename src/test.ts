@@ -1,7 +1,7 @@
 import { generate837I } from "./837i.generator";
 
 const payload: any = {
-    "controlNumber": "957201375",
+    "controlNumber": "247578923",
     "submitter": {
         "organizationName": "Institutional Hospital",
         "contactInformation": {
@@ -105,6 +105,13 @@ const payload: any = {
                         "",
                         ""
                     ]
+                },
+                "serviceLineReferenceInformation": {
+                    "priorAuthorization": [
+                        {
+                            "priorAuthorizationOrReferralNumber": "5411"
+                        }
+                    ]
                 }
             },
             {
@@ -153,6 +160,11 @@ const payload: any = {
         },
         "diagnosisRelatedGroupInformation": {
             "drugRelatedGroupCode": 6
+        },
+        "claimSupplementalInformation": {
+            "priorAuthorizationNumber": [
+                "5411"
+            ]
         }
     },
     "tradingPartnerServiceId": "66002",

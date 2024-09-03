@@ -19,7 +19,7 @@ export type ClaimInformation = {
     otherDiagnosisInformationList?: any[];
     claimFilingCode: string,
     patientControlNumber: string,
-    claimChargeAmount: NumberString,
+    claimChargeAmount: NumberString | Number,
     placeOfServiceCode: NumberString,
     claimFrequencyCode: string,
     signatureIndicator?: string,
