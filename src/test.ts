@@ -1,7 +1,7 @@
 import { generate837I } from "./837i.generator";
 
 const payload: any = {
-    "controlNumber": "541435696",
+    "controlNumber": "957201375",
     "submitter": {
         "organizationName": "Institutional Hospital",
         "contactInformation": {
@@ -133,7 +133,7 @@ const payload: any = {
             "statementBeginDate": "20240826",
             "statementEndDate": "20240826",
             "dischargeHour": "0100",
-            "admissionDateAndHour": "2024082601"
+            "admissionDateAndHour": "202408260100"
         },
         "claimCodeInformation": {
             "admissionTypeCode": "3",
