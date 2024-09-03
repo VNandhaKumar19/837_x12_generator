@@ -215,7 +215,7 @@ function validateAdmittingDiagnosis(admittingDiagnosis: any): admittingDiagnosis
 
 function validateDiagnosisRelatedGroupInformation(diagnosisRelatedGroupInformation: any): diagnosisRelatedGroupInformation is DiagnosisRelatedGroupInformation {
     return (
-        isString(diagnosisRelatedGroupInformation?.drugRelatedGroupCode)
+        isNumber(diagnosisRelatedGroupInformation?.drugRelatedGroupCode)
     )
 }
 
@@ -263,7 +263,7 @@ function validateInstitutionalService(institutionalService: any): institutionalS
         isOptional(isString)(institutionalService.procedureIdentifier) &&
         isOptional(isString)(institutionalService.procedureCode) &&
         isOptional(validateProcedureModifiers)(institutionalService.procedureModifiers) &&
-        isString(institutionalService.serviceLineRevenueCode) &&
+        isNumber(institutionalService.serviceLineRevenueCode) &&
         (isNumberString(institutionalService.lineItemChargeAmount) || isNumber(institutionalService.lineItemChargeAmount)) &&
         isString(institutionalService.measurementUnit) &&
         (isNumberString(institutionalService.serviceUnitCount) || isNumber(institutionalService.serviceUnitCount)) &&

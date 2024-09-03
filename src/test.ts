@@ -1,7 +1,7 @@
 import { generate837I } from "./837i.generator";
 
 const payload: any = {
-    "controlNumber": "558761039",
+    "controlNumber": "541435696",
     "submitter": {
         "organizationName": "Institutional Hospital",
         "contactInformation": {
@@ -95,7 +95,7 @@ const payload: any = {
                     "procedureCode": "99202",
                     "measurementUnit": "UN",
                     "serviceUnitCount": 1,
-                    "serviceLineRevenueCode": '110',
+                    "serviceLineRevenueCode": 111,
                     "compositeDiagnosisCodePointers": {
                         "diagnosisCodePointers": []
                     },
@@ -116,7 +116,7 @@ const payload: any = {
                     "procedureCode": "99238",
                     "measurementUnit": "UN",
                     "serviceUnitCount": 1,
-                    "serviceLineRevenueCode": '110',
+                    "serviceLineRevenueCode": 112,
                     "compositeDiagnosisCodePointers": {
                         "diagnosisCodePointers": []
                     },
@@ -132,13 +132,13 @@ const payload: any = {
         "claimDateInformation": {
             "statementBeginDate": "20240826",
             "statementEndDate": "20240826",
-            "dischargeHour": "1130",
-            "admissionDateAndHour": "202407271242"
+            "dischargeHour": "0100",
+            "admissionDateAndHour": "2024082601"
         },
         "claimCodeInformation": {
-            "admissionTypeCode": "1",
-            "patientStatusCode": "01",
-            "admissionSourceCode": "1"
+            "admissionTypeCode": "3",
+            "patientStatusCode": "02",
+            "admissionSourceCode": "2"
         },
         "principalDiagnosis": {
             "qualifierCode": "ABK",
@@ -146,6 +146,13 @@ const payload: any = {
         },
         "admittingDiagnosis": {
             "qualifierCode": "ABJ"
+        },
+        "principalProcedureInformation": {
+            "principalProcedureCode": "99238",
+            "principalProcedureDateTime": "2024-08-26"
+        },
+        "diagnosisRelatedGroupInformation": {
+            "drugRelatedGroupCode": 6
         }
     },
     "tradingPartnerServiceId": "66002",
