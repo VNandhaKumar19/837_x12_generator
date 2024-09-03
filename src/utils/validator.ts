@@ -215,7 +215,7 @@ function validateAdmittingDiagnosis(admittingDiagnosis: any): admittingDiagnosis
 
 function validateDiagnosisRelatedGroupInformation(diagnosisRelatedGroupInformation: any): diagnosisRelatedGroupInformation is DiagnosisRelatedGroupInformation {
     return (
-        isString(diagnosisRelatedGroupInformation.drugRelatedGroupCode)
+        isString(diagnosisRelatedGroupInformation?.drugRelatedGroupCode)
     )
 }
 
