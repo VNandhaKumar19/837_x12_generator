@@ -1,4 +1,4 @@
-import { AdmittingDiagnosis, Attachment, ClaimAdjustmentInformation, ClaimCodeInformation, ClaimDateInformation, ClaimPricingInformation, ClaimSupplementalInformation, InstitutionalService, LineAdjudicationInformation, PrincipalDiagnosis, PrincipalProcedureInformation, ReportInformation, ServiceFacilityLocation, ServiceLine, ServiceLines, Address, ClaimInformation, ContactInformation, Dependent, OperatingPhysician, Provider, Providers, Receiver, RequestBody, Submitter, Subscriber } from "../models/request.model";
+import { AdmittingDiagnosis, Attachment, ClaimAdjustmentInformation, ClaimCodeInformation, ClaimDateInformation, ClaimPricingInformation, ClaimSupplementalInformation, InstitutionalService, LineAdjudicationInformation, PrincipalDiagnosis, PrincipalProcedureInformation, ReportInformation, ServiceFacilityLocation, ServiceLine, ServiceLines, Address, ClaimInformation, ContactInformation, Dependent, OperatingPhysician, Provider, Providers, Receiver, RequestBody, Submitter, Subscriber, DiagnosisRelatedGroupInformation } from "../models/request.model";
 import { isOptional, isString, isAny, isNumberString, isEmail, isArray, isRawDateString, isRawHourString, isNumber } from './validators.util';
 
 // Validation function for RequestBody
@@ -89,7 +89,7 @@ function validateProvider(provider: any): provider is Provider {
     return (
         isOptional(isString)(provider.ssn) &&
         isString(provider.providerType) &&
-        isString(provider.npi) &&
+        isOptional(isString)(provider.npi) &&
         isOptional(isString)(provider.employerId) &&
         isOptional(isString)(provider.organizationName) &&
         isOptional(validateAddress)(provider.address) &&
@@ -132,7 +132,8 @@ function validateClaimInformation(claimInfo: any): claimInfo is ClaimInformation
         validateServiceFacilityLocation(claimInfo.serviceFacilityLocation) &&
         validateServiceLines(claimInfo.serviceLines) &&
         validatePrincipalDiagnosis(claimInfo.principalDiagnosis) &&
-        validateAdmittingDiagnosis(claimInfo.admittingDiagnosis)
+        validateAdmittingDiagnosis(claimInfo.admittingDiagnosis) &&
+        validateDiagnosisRelatedGroupInformation(claimInfo.diagnosisRelatedGroupInformation)
     );
 }
 
@@ -173,7 +174,8 @@ function validateClaimSupplementalInformation(claimSupplementalInformation: any)
 
 function validatePrincipalProcedureInformation(principalProcedureInformation: any): principalProcedureInformation is PrincipalProcedureInformation {
     return (
-        isString(principalProcedureInformation.qualifierCode)
+        isString(principalProcedureInformation.principalProcedureCode) &&
+        isString(principalProcedureInformation.principalProcedureDateTime) 
     );
 }
 
@@ -206,8 +208,14 @@ function validatePrincipalDiagnosis(principalDiagnosis: any): principalDiagnosis
 
 function validateAdmittingDiagnosis(admittingDiagnosis: any): admittingDiagnosis is AdmittingDiagnosis {
     return (
-        isString(admittingDiagnosis.admittingDiagnosis) &&
+        isString(admittingDiagnosis.qualifierCode) &&
         isOptional(isString)(admittingDiagnosis.admittingDiagnosisCode)
+    )
+}
+
+function validateDiagnosisRelatedGroupInformation(diagnosisRelatedGroupInformation: any): diagnosisRelatedGroupInformation is DiagnosisRelatedGroupInformation {
+    return (
+        isString(diagnosisRelatedGroupInformation.drugRelatedGroupCode)
     )
 }
 

@@ -36,7 +36,8 @@ export type ClaimInformation = {
     serviceFacilityLocation: ServiceFacilityLocation,
     serviceLines: ServiceLines,
     principalDiagnosis: PrincipalDiagnosis,
-    admittingDiagnosis: AdmittingDiagnosis
+    admittingDiagnosis: AdmittingDiagnosis,
+    diagnosisRelatedGroupInformation: DiagnosisRelatedGroupInformation
 }
 
 export type ClaimDateInformation = {
@@ -67,7 +68,8 @@ export type ReportInformation = {
 }
 
 export type PrincipalProcedureInformation = {
-    qualifierCode: string
+    principalProcedureCode: string,
+    principalProcedureDateTime: string,
 }
 
 export type ClaimPricingInformation = {
@@ -141,6 +143,10 @@ export type AdmittingDiagnosis = {
     admittingDiagnosisCode?: string
 }
 
+export type DiagnosisRelatedGroupInformation ={
+    drugRelatedGroupCode: string
+}
+
 export type Submitter = {
     organizationName: string,
     taxId?: string,
@@ -149,7 +155,7 @@ export type Submitter = {
 
 export type ContactInformation = {
     name: string,
-    phoneNumber?: NumberString,
+    phoneNumber?: string,
     email?: Email,
     faxNumber?: NumberString
 }
@@ -195,7 +201,7 @@ export type Providers = Array<Provider>;
 export type Provider = {
     ssn?: string;
     providerType: string,
-    npi: string,
+    npi?: string,
     employerId?: string,
     organizationName?: string,
     address?: Address,

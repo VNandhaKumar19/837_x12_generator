@@ -1,4 +1,4 @@
-export type NumberString = `${number}`;
+export type NumberString = `${number}` | `${number}.${number}` | `.${number}`;
 
 /**
  * The `StringObject` type in TypeScript represents an object with string keys and values of any type.
