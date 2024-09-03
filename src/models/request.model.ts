@@ -123,7 +123,7 @@ export type InstitutionalService = {
     procedureIdentifier?: string,
     procedureCode?: string,
     procedureModifiers?: string[],
-    serviceLineRevenueCode?: string,
+    serviceLineRevenueCode?: Number,
     lineItemChargeAmount: NumberString | Number,
     measurementUnit: string,
     serviceUnitCount: NumberString | Number,
@@ -144,7 +144,7 @@ export type AdmittingDiagnosis = {
 }
 
 export type DiagnosisRelatedGroupInformation ={
-    drugRelatedGroupCode: string
+    drugRelatedGroupCode: Number
 }
 
 export type Submitter = {
