@@ -28,10 +28,10 @@ export function generate2400(serviceLine: ServiceLine, index: number) {
         },
         {
             "Segment": `SV2`,
-            "revenueCode": "0305",
+            "revenueCode": serviceLine.institutionalService?.serviceLineRevenueCode ?? '',
             "CompositeMedicalProcedureIdentifier": {
                 "ProductServiceIDQualifier": "HC",
-                "ProductServiceID": '85025',
+                "ProductServiceID": serviceLine.institutionalService.procedureCode ?? '',
                 "ProcedureModifier1": procedureModifiers && procedureModifiers[0] ? procedureModifiers[0] : '',
                 "ProcedureModifier2": procedureModifiers && procedureModifiers[1] ? procedureModifiers[1] : '',
                 "ProcedureModifier3": procedureModifiers && procedureModifiers[2] ? procedureModifiers[2] : '',

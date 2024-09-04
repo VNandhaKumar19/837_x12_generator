@@ -50,6 +50,9 @@ export function getControlNumber() {
 export function formatObject(obj: { [s: string]: unknown; } | ArrayLike<unknown>) {
     const segmentString = Object.entries(obj)
         .map(([key, value]) => {
+            if (typeof value === "object" && value !== null) {
+                return Object.values(value).filter(v => v !== "").join(":");
+            }
             return value !== "" && value !== null ? `${value}` : "";
         })
         .join("*");

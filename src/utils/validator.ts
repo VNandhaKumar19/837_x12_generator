@@ -255,7 +255,7 @@ function validateInstitutionalService(institutionalService: any): institutionalS
         isOptional(isString)(institutionalService.procedureIdentifier) &&
         isOptional(isString)(institutionalService.procedureCode) &&
         isOptional(validateProcedureModifiers)(institutionalService.procedureModifiers) &&
-        isString(institutionalService.serviceLineRevenueCode) &&
+        isNumberString(institutionalService.serviceLineRevenueCode) &&
         (isNumberString(institutionalService.lineItemChargeAmount) || isNumber(institutionalService.lineItemChargeAmount)) &&
         isString(institutionalService.measurementUnit) &&
         (isNumberString(institutionalService.serviceUnitCount) || isNumber(institutionalService.serviceUnitCount)) &&
