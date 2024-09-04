@@ -126,13 +126,18 @@ function validateClaimInformation(claimInfo: any): claimInfo is ClaimInformation
         validateClaimDateInformation(claimInfo.claimDateInformation) &&
         validateClaimCodeInformation(claimInfo.claimCodeInformation) &&
         isOptional(validateClaimSupplementalInformation)(claimInfo.claimSupplementalInformation) &&
-        isOptional(validateConditionCodes)(claimInfo.conditionCodes) &&
         isOptional(validatePrincipalProcedureInformation)(claimInfo.principalProcedureInformation) &&
         isOptional(validateClaimPricingInformation)(claimInfo.claimPricingInformation) &&
         validateServiceFacilityLocation(claimInfo.serviceFacilityLocation) &&
         validateServiceLines(claimInfo.serviceLines) &&
         validatePrincipalDiagnosis(claimInfo.principalDiagnosis) &&
-        validateAdmittingDiagnosis(claimInfo.admittingDiagnosis)
+        validateAdmittingDiagnosis(claimInfo.admittingDiagnosis) &&
+        isOptional(validateConditionCodes)(claimInfo.conditionCodes) &&
+        isOptional(validateOccurenceCodes)(claimInfo.occurrenceInformationList) &&
+        isOptional(validateValueCodes)(claimInfo.valueInformationList) &&
+        isOptional(validateOccurenceSpanCodes)(claimInfo.occurrenceSpanInformations) &&
+        isOptional(validatePatientReasonCodes)(claimInfo.patientReasonForVisits) &&
+        isOptional(validateInjuryCodes)(claimInfo.externalCauseOfInjuries)
     );
 }
 
@@ -140,8 +145,28 @@ function validateOtherDiagnosisInformationList(otherDiagnosisInformationList: an
     return (isArray(otherDiagnosisInformationList, isAny))
 }
 
-function validateConditionCodes(conditionCodes: any): conditionCodes is Array<string> {
-    return (isArray(conditionCodes, isString))
+function validateConditionCodes(conditionCodes: any): conditionCodes is Array<any> {
+    return (isArray(conditionCodes, isAny))
+}
+
+function validateOccurenceCodes(occurenceCode: any): occurenceCode is Array<any> {
+    return (isArray(occurenceCode, isAny))
+}
+
+function validateValueCodes(valueCode: any): valueCode is Array<any> {
+    return (isArray(valueCode, isAny))
+}
+
+function validateOccurenceSpanCodes(occurenceSpanCode: any): occurenceSpanCode is Array<any> {
+    return (isArray(occurenceSpanCode, isAny))
+}
+
+function validatePatientReasonCodes(patientCode: any): patientCode is Array<any> {
+    return (isArray(patientCode, isAny))
+}
+
+function validateInjuryCodes(injuryCode: any): injuryCode is Array<any> {
+    return (isArray(injuryCode, isAny))
 }
 
 function validateClaimDateInformation(claimDateInformation: any): claimDateInformation is ClaimDateInformation {
