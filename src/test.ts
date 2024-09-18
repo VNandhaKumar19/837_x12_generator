@@ -172,7 +172,7 @@ const payload1: any = {
 }
 
 const payload: any = {
-    "controlNumber": "724711979",
+    "controlNumber": "428523774",
     "submitter": {
         "organizationName": "Institutional Hospital",
         "contactInformation": {
@@ -184,18 +184,18 @@ const payload: any = {
         "organizationName": "Zing Health UB- formerly Zing Choice HMO UB"
     },
     "subscriber": {
-        "memberId": "312323131",
+        "memberId": "432424",
         "paymentResponsibilityLevelCode": "P",
         "firstName": "John",
-        "lastName": "David",
+        "lastName": "Cena",
         "gender": "M",
-        "dateOfBirth": "19970916",
-        "policyNumber": "312323131",
+        "dateOfBirth": "19900918",
+        "policyNumber": "432424",
         "address": {
-            "address1": "Los Angeles International Airport",
-            "city": "Los Angeles",
+            "address1": "3rd Street Promenade",
+            "city": "Santa Monica",
             "state": "CA",
-            "postalCode": "90045"
+            "postalCode": "90401"
         }
     },
     "providers": [
@@ -239,7 +239,7 @@ const payload: any = {
     ],
     "claimInformation": {
         "claimFilingCode": "ZZ",
-        "patientControlNumber": "C0917CA11142",
+        "patientControlNumber": "C0918CA11144",
         "claimChargeAmount": "0.00",
         "placeOfServiceCode": "11",
         "claimFrequencyCode": "1",
@@ -257,12 +257,12 @@ const payload: any = {
         },
         "serviceLines": [
             {
-                "serviceDate": "20240917",
-                "serviceDateEnd": "20240917",
+                "serviceDate": "20240918",
+                "serviceDateEnd": "20240918",
                 "institutionalService": {
                     "procedureIdentifier": "HC",
                     "lineItemChargeAmount": "0",
-                    "procedureCode": "99203",
+                    "procedureCode": "99202",
                     "measurementUnit": "UN",
                     "serviceUnitCount": "1",
                     "serviceLineRevenueCode": "0110",
@@ -273,34 +273,48 @@ const payload: any = {
             }
         ],
         "claimDateInformation": {
-            "statementBeginDate": "20240917",
-            "statementEndDate": "20240917",
-            "dischargeHour": "0100",
-            "admissionDateAndHour": "202409170100"
+            "statementBeginDate": "20240918",
+            "statementEndDate": "20240918",
+            "dischargeHour": "202409180000",
+            "admissionDateAndHour": "202409180000"
         },
         "claimCodeInformation": {
             "admissionTypeCode": "2",
             "patientStatusCode": "01",
-            "admissionSourceCode": "1"
+            "admissionSourceCode": "2"
         },
         "principalDiagnosis": {
             "qualifierCode": "ABK",
-            "principalDiagnosisCode": "J069"
+            "principalDiagnosisCode": "A054"
         },
         "admittingDiagnosis": {
             "qualifierCode": "ABJ",
-            "admittingDiagnosisCode": "B948"
+            "admittingDiagnosisCode": "A038"
         },
         "principalProcedureInformation": {
-            "principalProcedureCode": "99203",
-            "principalProcedureDateTime": "2024-09-17"
+            "principalProcedureCode": "99202",
+            "principalProcedureDateTime": "2024-09-18"
         },
         "diagnosisRelatedGroupInformation": {
-            "drugRelatedGroupCode": "5"
+            "drugRelatedGroupCode": "6"
         },
+        "otherDiagnosisInformationList": [
+            {
+                "qualifierCode": "ABF",
+                "otherDiagnosisCode": "A014"
+            },
+            {
+                "qualifierCode": "ABF",
+                "otherDiagnosisCode": "A011"
+            },
+            {
+                "qualifierCode": "ABF",
+                "otherDiagnosisCode": "A0104"
+            }
+        ],
         "conditionCodes": [
             {
-                "conditionCode": "10"
+                "conditionCode": "36"
             }
         ]
     },

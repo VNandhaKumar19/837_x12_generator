@@ -74,16 +74,6 @@ export function generate2300(claimData: ClaimInformation) {
         })
     }
 
-
-    if (claimData?.claimDateInformation?.admissionDate) {
-        data.push({
-            "Segment": "DTP",
-            "DateTimeQualifier": "435",   // default value for AdmissionDate qualifier
-            "DateTimePeriodFormatQualifier": "D8",
-            "DateTimePeriod": claimData?.claimDateInformation?.admissionDate ?? ''
-        })
-    }
-
     if (claimData?.otherDiagnosisInformationList && claimData?.otherDiagnosisInformationList?.length > 0) {
         data.push(getHealthCareCodeInformation(claimData?.otherDiagnosisInformationList ?? []));
     }
@@ -109,8 +99,8 @@ export function generate2300(claimData: ClaimInformation) {
         })
     }
 
-    if (claimData?.conditionCodesList) {
-        data.push(getConditionCodeInformation(claimData?.conditionCodesList))
+    if (claimData?.conditionCodes) {
+        data.push(getConditionCodeInformation(claimData?.conditionCodes))
     }
  
     if (claimData?.occurrenceInformationList) {

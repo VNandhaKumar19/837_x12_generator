@@ -30,7 +30,7 @@ export type ClaimInformation = {
     claimDateInformation: ClaimDateInformation,
     claimCodeInformation: ClaimCodeInformation,
     claimSupplementalInformation?: ClaimSupplementalInformation,
-    conditionCodesList?: ConditionCodeList,
+    conditionCodes?: ConditionCodeList,
     principalProcedureInformation?: PrincipalProcedureInformation,
     claimPricingInformation?: ClaimPricingInformation,
     serviceFacilityLocation: ServiceFacilityLocation,
@@ -46,10 +46,9 @@ export type ClaimInformation = {
 }
 
 export type ClaimDateInformation = {
-    admissionDate?: RawDateString;
     statementBeginDate: RawDateString,
     statementEndDate: RawDateString,
-    dischargeHour: RawHourString,
+    dischargeHour: NumberString,
     admissionDateAndHour: NumberString
 }
 
