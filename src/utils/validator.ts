@@ -115,7 +115,7 @@ function validateClaimInformation(claimInfo: any): claimInfo is ClaimInformation
         isOptional(validateOtherDiagnosisInformationList)(claimInfo.otherDiagnosisInformationList) &&
         isString(claimInfo.claimFilingCode) &&
         isString(claimInfo.patientControlNumber) &&
-        isNumberString(claimInfo.claimChargeAmount) &&
+        (isNumberString(claimInfo.claimChargeAmount) || isNumber(claimInfo.claimChargeAmount)) &&
         isNumberString(claimInfo.placeOfServiceCode) &&
         isString(claimInfo.claimFrequencyCode) &&
         isOptional(isString)(claimInfo.signatureIndicator) &&
@@ -238,6 +238,7 @@ function validateClaimCodeInformation(claimCodeInformation: any): claimCodeInfor
 }
 
 function validateClaimSupplementalInformation(claimSupplementalInformation: any): claimSupplementalInformation is ClaimSupplementalInformation {
+    console.log('claimSupplementalInformation.priorAuthorizationNumber: ', claimSupplementalInformation.priorAuthorizationNumber);
     return (
         isString(claimSupplementalInformation.claimControlNumber) &&
         isString(claimSupplementalInformation.priorAuthorizationNumber) &&
@@ -313,12 +314,14 @@ function validateServiceLineSupplementalInformationArray(serviceLineSupplemental
 }
 
 function validateServiceLineReferenceInformation(serviceLineReferenceInformation: any): serviceLineReferenceInformation is { priorAuthorization: { priorAuthorizationOrReferralNumber: string }[] } {
+    console.log('serviceLineReferenceInformation.priorAuthorization: ', serviceLineReferenceInformation.priorAuthorization);
     return (
         validatePriorAuthorization(serviceLineReferenceInformation.priorAuthorization)
     )
 }
 
 function validatePriorAuthorization(priorAuthorization: any): priorAuthorization is { priorAuthorizationOrReferralNumber: string }[] {
+    console.log('priorAuthorization: ', priorAuthorization);
     return (
         isArray(priorAuthorization.priorAuthorizationOrReferralNumber, isString)
     )

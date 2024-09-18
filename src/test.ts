@@ -105,6 +105,13 @@ const payload1: any = {
                         "",
                         ""
                     ]
+                },
+                "serviceLineReferenceInformation": {
+                    "priorAuthorization": [
+                        {
+                            "priorAuthorizationOrReferralNumber": "5411"
+                        }
+                    ]
                 }
             },
             {
@@ -133,7 +140,7 @@ const payload1: any = {
             "statementBeginDate": "20240826",
             "statementEndDate": "20240826",
             "dischargeHour": "0100",
-            "admissionDateAndHour": "2024082601"
+            "admissionDateAndHour": "202408260100"
         },
         "claimCodeInformation": {
             "admissionTypeCode": "3",
@@ -153,6 +160,11 @@ const payload1: any = {
         },
         "diagnosisRelatedGroupInformation": {
             "drugRelatedGroupCode": 6
+        },
+        "claimSupplementalInformation": {
+            "priorAuthorizationNumber": [
+                "5411"
+            ]
         }
     },
     "tradingPartnerServiceId": "66002",
