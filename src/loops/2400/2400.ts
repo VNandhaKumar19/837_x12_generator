@@ -39,7 +39,7 @@ export function generate2400(serviceLine: ServiceLine, index: number) {
             },
             "MonetaryAmount": serviceLine.institutionalService.lineItemChargeAmount ? serviceLine.institutionalService.lineItemChargeAmount.toString() : '0',
             "UnitOrBasisForMeasurementCode": "UN",
-            "Quantity": serviceLine.institutionalService.serviceUnitCount ?? '',
+            "Quantity": serviceLine.institutionalService.serviceUnitCount ?? '1',
         },
         {
             "Segment": "DTP",

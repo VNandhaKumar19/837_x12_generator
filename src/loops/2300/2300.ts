@@ -19,7 +19,7 @@ export function generate2300(claimData: ClaimInformation) {
         {
             "Segment": "CLM",
             "PatientControlNumber": claimData?.patientControlNumber ?? '',
-            "MonetaryAmount": claimData?.claimChargeAmount ?? '',
+            "MonetaryAmount": claimData?.claimChargeAmount ? claimData?.claimChargeAmount.toString() : '0.00',
             "facilityTypeCode": `${claimData?.placeOfServiceCode}1` ?? '',
             'unknown': '',
             "ClaimFilingIndicatorCode": {

@@ -149,7 +149,7 @@ export type AdmittingDiagnosis = {
 }
 
 export type DiagnosisRelatedGroupInformation ={
-    drugRelatedGroupCode: Number
+    drugRelatedGroupCode: NumberString
 }
 
 export type Submitter = {
