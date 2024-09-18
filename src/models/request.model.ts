@@ -16,7 +16,7 @@ export type RequestBody = {
 }
 
 export type ClaimInformation = {
-    otherDiagnosisInformationList?: any[];
+    otherDiagnosisInformationList?: OtherDiagnosisInformationList;
     claimFilingCode: string,
     patientControlNumber: string,
     claimChargeAmount: NumberString,
@@ -30,13 +30,18 @@ export type ClaimInformation = {
     claimDateInformation: ClaimDateInformation,
     claimCodeInformation: ClaimCodeInformation,
     claimSupplementalInformation?: ClaimSupplementalInformation,
-    conditionCodes?: Array<string>,
+    conditionCodesList?: ConditionCodeList,
     principalProcedureInformation?: PrincipalProcedureInformation,
     claimPricingInformation?: ClaimPricingInformation,
     serviceFacilityLocation: ServiceFacilityLocation,
     serviceLines: ServiceLines,
     principalDiagnosis: PrincipalDiagnosis,
     admittingDiagnosis: AdmittingDiagnosis,
+    occurrenceInformationList?: OccurrenceInformationList,
+    valueInformationList?: ValueInformationList,
+    occurrenceSpanInformations?: OccurrenceSpanInformations,
+    patientReasonForVisits?: PatientReasonForVisits,
+    externalCauseOfInjuries?: ExternalCauseOfInjuries
     diagnosisRelatedGroupInformation: DiagnosisRelatedGroupInformation
 }
 
@@ -144,7 +149,7 @@ export type AdmittingDiagnosis = {
 }
 
 export type DiagnosisRelatedGroupInformation ={
-    drugRelatedGroupCode: Number
+    drugRelatedGroupCode: NumberString
 }
 
 export type Submitter = {
@@ -217,4 +222,46 @@ export type OperatingPhysician = {
     lastName: string,
     firstName: string,
     npi: string
+} 
+
+export type OtherDiagnosisInformationList = Array<OtherDiagnosisInformation>;
+export type OtherDiagnosisInformation = {
+    qualifierCode: string,
+    otherDiagnosisCode: string
+}
+
+export type ConditionCodeList = Array<ConditionCode>; 
+export type ConditionCode = {
+    conditionCode: string
+}
+
+export type OccurrenceInformationList =  Array<OccurrenceInformation>;
+export type OccurrenceInformation = {
+    occurrenceSpanCode: string,
+    occurrenceSpanCodeDate: string
+}
+
+export type OccurrenceSpanInformations =  Array<OccurrenceSpanInformation>;
+export type OccurrenceSpanInformation = {
+    occurrenceSpanCode: string,
+    occurrenceSpanCodeStartDate: string,
+    occurrenceSpanCodeEndDate: string
+}
+
+export type ValueInformationList =  Array<ValueInformation>;
+export type ValueInformation = {
+    valueCode: string,
+    valueCodeAmount: string
+}
+
+export type PatientReasonForVisits =  Array<PatientReasonForVisit>;
+export type PatientReasonForVisit = {
+    qualifierCode: string,
+    patientReasonForVisitCode: string
+}
+
+export type ExternalCauseOfInjuries =  Array<ExternalCauseOfInjury>;
+export type ExternalCauseOfInjury = {
+    qualifierCode: string,
+    externalCauseOfInjury: string
 }

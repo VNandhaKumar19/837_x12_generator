@@ -1,4 +1,4 @@
-import { AdmittingDiagnosis, Attachment, ClaimAdjustmentInformation, ClaimCodeInformation, ClaimDateInformation, ClaimPricingInformation, ClaimSupplementalInformation, InstitutionalService, LineAdjudicationInformation, PrincipalDiagnosis, PrincipalProcedureInformation, ReportInformation, ServiceFacilityLocation, ServiceLine, ServiceLines, Address, ClaimInformation, ContactInformation, Dependent, OperatingPhysician, Provider, Providers, Receiver, RequestBody, Submitter, Subscriber, DiagnosisRelatedGroupInformation } from "../models/request.model";
+import { AdmittingDiagnosis, Attachment, ClaimAdjustmentInformation, ClaimCodeInformation, ClaimDateInformation, ClaimPricingInformation, ClaimSupplementalInformation, InstitutionalService, LineAdjudicationInformation, PrincipalDiagnosis, PrincipalProcedureInformation, ReportInformation, ServiceFacilityLocation, ServiceLine, ServiceLines, Address, ClaimInformation, ContactInformation, Dependent, OperatingPhysician, Provider, Providers, Receiver, RequestBody, Submitter, Subscriber, DiagnosisRelatedGroupInformation, OtherDiagnosisInformation, ExternalCauseOfInjury, PatientReasonForVisit, OccurrenceSpanInformation, ConditionCode, OccurrenceInformation, ValueInformation } from "../models/request.model";
 import { isOptional, isString, isAny, isNumberString, isEmail, isArray, isRawDateString, isRawHourString, isNumber } from './validators.util';
 
 // Validation function for RequestBody
@@ -126,23 +126,97 @@ function validateClaimInformation(claimInfo: any): claimInfo is ClaimInformation
         validateClaimDateInformation(claimInfo.claimDateInformation) &&
         validateClaimCodeInformation(claimInfo.claimCodeInformation) &&
         isOptional(validateClaimSupplementalInformation)(claimInfo.claimSupplementalInformation) &&
-        isOptional(validateConditionCodes)(claimInfo.conditionCodes) &&
         isOptional(validatePrincipalProcedureInformation)(claimInfo.principalProcedureInformation) &&
         isOptional(validateClaimPricingInformation)(claimInfo.claimPricingInformation) &&
         validateServiceFacilityLocation(claimInfo.serviceFacilityLocation) &&
         validateServiceLines(claimInfo.serviceLines) &&
         validatePrincipalDiagnosis(claimInfo.principalDiagnosis) &&
         validateAdmittingDiagnosis(claimInfo.admittingDiagnosis) &&
+        isOptional(validateConditionCodes)(claimInfo.conditionCodes) &&
+        isOptional(validateOccurenceCodes)(claimInfo.occurrenceInformationList) &&
+        isOptional(validateValueCodes)(claimInfo.valueInformationList) &&
+        isOptional(validateOccurenceSpanCodes)(claimInfo.occurrenceSpanInformations) &&
+        isOptional(validatePatientReasonCodes)(claimInfo.patientReasonForVisits) &&
+        isOptional(validateInjuryCodes)(claimInfo.externalCauseOfInjuries) &&
         validateDiagnosisRelatedGroupInformation(claimInfo.diagnosisRelatedGroupInformation)
     );
 }
 
 function validateOtherDiagnosisInformationList(otherDiagnosisInformationList: any): otherDiagnosisInformationList is Array<any> {
-    return (isArray(otherDiagnosisInformationList, isAny))
+    return (isArray(otherDiagnosisInformationList, validateOtherDiagnosisInformation))
 }
 
-function validateConditionCodes(conditionCodes: any): conditionCodes is Array<string> {
-    return (isArray(conditionCodes, isString))
+function validateOtherDiagnosisInformation(otherDiagnosisInformation: any): otherDiagnosisInformation is OtherDiagnosisInformation {
+    return (
+        isString(otherDiagnosisInformation.qualifierCode) &&
+        isString(otherDiagnosisInformation.otherDiagnosisCode)
+    ); 
+}
+
+function validateConditionCodes(conditionCodes: any): conditionCodes is Array<any> {
+    return (isArray(conditionCodes, validateConditionCode))
+}
+
+function validateConditionCode(ConditionCode: any): ConditionCode is ConditionCode {
+    return (
+        isString(ConditionCode.conditionCode) 
+    ); 
+}
+
+function validateOccurenceCodes(occurenceCode: any): occurenceCode is Array<any> {
+    return (isArray(occurenceCode, validateOccurenceCode))
+}
+
+function validateOccurenceCode(OccurrenceInformation: any): OccurrenceInformation is OccurrenceInformation {
+    return (
+        isString(OccurrenceInformation.occurenceSpanCode) &&
+        isString(OccurrenceInformation.occurrenceSpanCodeDate)
+    ); 
+}
+
+function validateValueCodes(valueCode: any): valueCode is Array<any> {
+    return (isArray(valueCode, validateValueCode))
+}
+
+function validateValueCode(ValueInformation: any): ValueInformation is ValueInformation {
+    return (
+        isString(ValueInformation.valueCode) &&
+        isString(ValueInformation.valueCodeAmount)
+    ); 
+}
+
+function validateOccurenceSpanCodes(occurenceSpanCode: any): occurenceSpanCode is Array<any> {
+    return (isArray(occurenceSpanCode, validateOccurenceSpanCode))
+}
+
+function validateOccurenceSpanCode(OccurrenceSpanInformation: any): OccurrenceSpanInformation is OccurrenceSpanInformation {
+    return (
+        isString(OccurrenceSpanInformation.occurenceSpanCode) &&
+        isString(OccurrenceSpanInformation.occurrenceSpanCodeStartDate) && 
+        isString(OccurrenceSpanInformation.occurrenceSpanCodeEndDate)
+    ); 
+}
+
+function validatePatientReasonCodes(patientCode: any): patientCode is Array<any> {
+    return (isArray(patientCode, validatePatientReasonCode))
+}
+
+function validatePatientReasonCode(PatientReasonForVisit: any): PatientReasonForVisit is PatientReasonForVisit {
+    return (
+        isString(PatientReasonForVisit.qualifierCode) &&
+        isString(PatientReasonForVisit.patientReasonForVisitCode)
+    ); 
+}
+
+function validateInjuryCodes(injuryCode: any): injuryCode is Array<any> {
+    return (isArray(injuryCode, validateInjuryCode))
+}
+
+function validateInjuryCode(ExternalCauseOfInjury: any): ExternalCauseOfInjury is ExternalCauseOfInjury {
+    return (
+        isString(ExternalCauseOfInjury.qualifierCode) &&
+        isString(ExternalCauseOfInjury.externalCauseOfInjury)
+    ); 
 }
 
 function validateClaimDateInformation(claimDateInformation: any): claimDateInformation is ClaimDateInformation {
@@ -215,7 +289,7 @@ function validateAdmittingDiagnosis(admittingDiagnosis: any): admittingDiagnosis
 
 function validateDiagnosisRelatedGroupInformation(diagnosisRelatedGroupInformation: any): diagnosisRelatedGroupInformation is DiagnosisRelatedGroupInformation {
     return (
-        isNumber(diagnosisRelatedGroupInformation?.drugRelatedGroupCode)
+        isNumberString(diagnosisRelatedGroupInformation?.drugRelatedGroupCode)
     )
 }
 
@@ -263,7 +337,7 @@ function validateInstitutionalService(institutionalService: any): institutionalS
         isOptional(isString)(institutionalService.procedureIdentifier) &&
         isOptional(isString)(institutionalService.procedureCode) &&
         isOptional(validateProcedureModifiers)(institutionalService.procedureModifiers) &&
-        isNumber(institutionalService.serviceLineRevenueCode) &&
+        isNumberString(institutionalService.serviceLineRevenueCode) &&
         (isNumberString(institutionalService.lineItemChargeAmount) || isNumber(institutionalService.lineItemChargeAmount)) &&
         isString(institutionalService.measurementUnit) &&
         (isNumberString(institutionalService.serviceUnitCount) || isNumber(institutionalService.serviceUnitCount)) &&
