@@ -169,7 +169,7 @@ function validateOccurenceCodes(occurenceCode: any): occurenceCode is Occurrence
 
 function validateOccurenceCode(OccurrenceInformation: any): OccurrenceInformation is OccurrenceInformation {
     return (
-        isString(OccurrenceInformation.occurenceSpanCode) &&
+        isString(OccurrenceInformation.occurrenceSpanCode) &&
         isString(OccurrenceInformation.occurrenceSpanCodeDate)
     ); 
 }
@@ -191,7 +191,7 @@ function validateOccurenceSpanCodes(occurenceSpanCode: any): occurenceSpanCode i
 
 function validateOccurenceSpanCode(OccurrenceSpanInformation: any): OccurrenceSpanInformation is OccurrenceSpanInformation {
     return (
-        isString(OccurrenceSpanInformation.occurenceSpanCode) &&
+        isString(OccurrenceSpanInformation.occurrenceSpanCode) &&
         isString(OccurrenceSpanInformation.occurrenceSpanCodeStartDate) && 
         isString(OccurrenceSpanInformation.occurrenceSpanCodeEndDate)
     ); 
