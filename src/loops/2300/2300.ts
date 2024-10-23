@@ -20,7 +20,7 @@ export function generate2300(claimData: ClaimInformation) {
             "Segment": "CLM",
             "PatientControlNumber": claimData?.patientControlNumber ?? '',
             "MonetaryAmount": claimData?.claimChargeAmount ? claimData?.claimChargeAmount.toString() : '0.00',
-            "facilityTypeCode": `${claimData?.placeOfServiceCode}1` ?? '',
+            "facilityTypeCode": '',
             'unknown': '',
             "ClaimFilingIndicatorCode": {
                 "placeOfServiceCode": claimData?.placeOfServiceCode ?? '',
@@ -88,7 +88,7 @@ export function generate2300(claimData: ClaimInformation) {
         })
     }
 
-    if (claimData?.admittingDiagnosis) {
+    if (claimData?.admittingDiagnosis && claimData?.admittingDiagnosis?.admittingDiagnosisCode) {
         data.push({
             "Segment": "HI",
             "HealthCareCodeInformation": {
@@ -99,27 +99,27 @@ export function generate2300(claimData: ClaimInformation) {
         })
     }
 
-    if (claimData?.conditionCodes) {
+    if (claimData?.conditionCodes && claimData?.conditionCodes.length) {
         data.push(getConditionCodeInformation(claimData?.conditionCodes))
     }
  
-    if (claimData?.occurrenceInformationList) {
+    if (claimData?.occurrenceInformationList && claimData?.occurrenceInformationList.length) {
         data.push(getOccurenceCodeInformation(claimData?.occurrenceInformationList))
     }
 
-    if (claimData?.occurrenceSpanInformations) {
+    if (claimData?.occurrenceSpanInformations && claimData?.occurrenceSpanInformations.length) {
         data.push(getOccurenceSpanCodeInformation(claimData?.occurrenceSpanInformations))
     }
 
-    if (claimData?.valueInformationList) {
+    if (claimData?.valueInformationList && claimData?.valueInformationList.length) {
         data.push(getValueCodeInformation(claimData?.valueInformationList))
     }
 
-    if (claimData?.patientReasonForVisits) {
+    if (claimData?.patientReasonForVisits && claimData?.patientReasonForVisits.length) {
         data.push(getPatientReasonForVisits(claimData?.patientReasonForVisits))
     }
 
-    if (claimData?.externalCauseOfInjuries) {
+    if (claimData?.externalCauseOfInjuries && claimData?.externalCauseOfInjuries.length) {
         data.push(getExternalCauseOfInjuries(claimData?.externalCauseOfInjuries))
     }
 
@@ -186,7 +186,7 @@ function getOccurenceCodeInformation(occurenceCode: OccurrenceInformationList) {
         "Segment": "HI",
     };
 
-    if (occurenceCode && occurenceCode.length) {
+    if (occurenceCode && occurenceCode?.length) {
         occurenceCode.forEach((code: OccurrenceInformation, index) => {
             segment[`OccurenceCodeInformation${index + 1}`] = {
                "CodeListQualifierCode": "BH",
@@ -201,11 +201,11 @@ function getOccurenceCodeInformation(occurenceCode: OccurrenceInformationList) {
 
 
 function getOccurenceSpanCodeInformation(occurenceSpanCode: OccurrenceSpanInformations) {
+    if (occurenceSpanCode && occurenceSpanCode?.length) {
     const segment: StringObject = {
         "Segment": "HI",
     };
 
-    if (occurenceSpanCode && occurenceSpanCode.length) {
         occurenceSpanCode.forEach((code: OccurrenceSpanInformation, index) => {
             segment[`OccurenceCodeInformation${index + 1}`] = {
                "CodeListQualifierCode": "BI",
@@ -214,17 +214,17 @@ function getOccurenceSpanCodeInformation(occurenceSpanCode: OccurrenceSpanInform
                 "StartDate": code.occurrenceSpanCodeStartDate + '-' + code.occurrenceSpanCodeEndDate
             };
         })
+        return segment;
     }
-    return segment;
 }
 
 
 function getValueCodeInformation(valueCode: ValueInformationList) {
+    if (valueCode && valueCode?.length) {
     const segment: StringObject = {
         "Segment": "HI",
     };
 
-    if (valueCode && valueCode.length) {
         valueCode.forEach((code: ValueInformation, index) => {
             segment[`ValueCodeInformation${index + 1}`] = {
                "CodeListQualifierCode": "BE",
@@ -234,38 +234,38 @@ function getValueCodeInformation(valueCode: ValueInformationList) {
                "MonetaryAmount": code.valueCodeAmount
             };
         })
+        return segment;
     }
-    return segment;
 }
 
 function getPatientReasonForVisits(codeVisit: PatientReasonForVisits) {
+    if (codeVisit && codeVisit?.length) {
     const segment: StringObject = {
         "Segment": "HI",
     };
 
-    if (codeVisit && codeVisit.length) {
         codeVisit.forEach((code: PatientReasonForVisit, index) => {
             segment[`PatientReasonForVisit${index + 1}`] = {
                "qualifierCode": code.qualifierCode,
                "PatientReasonCode": code.patientReasonForVisitCode
             };
         })
+        return segment;
     }
-    return segment;
 }
 
 function getExternalCauseOfInjuries(codeInjury: ExternalCauseOfInjuries) {
+    if (codeInjury && codeInjury?.length) {
     const segment: StringObject = {
         "Segment": "HI",
     };
 
-    if (codeInjury && codeInjury.length) {
         codeInjury.forEach((code: ExternalCauseOfInjury, index) => {
             segment[`ExternalCauseOfInjury${index + 1}`] = {
                "qualifierCode": code.qualifierCode,
                "CauseOfInjury": code.externalCauseOfInjury
             };
         })
+        return segment;
     }
-    return segment;
 }
