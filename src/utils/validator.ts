@@ -35,6 +35,7 @@ export function validateRequestBody(body: any): body is RequestBody {
 function validateSubmitter(submitter: any): submitter is Submitter {
     return (
         isString(submitter.organizationName) &&
+        isString(submitter.npi) &&
         isOptional(isString)(submitter.taxId) &&
         validateContactInformation(submitter.contactInformation)
     );
@@ -52,6 +53,7 @@ function validateContactInformation(info: any): info is ContactInformation {
 function validateReceiver(receiver: any): receiver is Receiver {
     return (
         isString(receiver.organizationName) &&
+        isString(receiver.payerId) &&
         isOptional(isString)(receiver.taxId)
     );
 }
@@ -237,7 +239,6 @@ function validateClaimCodeInformation(claimCodeInformation: any): claimCodeInfor
 }
 
 function validateClaimSupplementalInformation(claimSupplementalInformation: any): claimSupplementalInformation is ClaimSupplementalInformation {
-    console.log('claimSupplementalInformation.priorAuthorizationNumber: ', claimSupplementalInformation.priorAuthorizationNumber);
     return (
         isString(claimSupplementalInformation.claimControlNumber) &&
         isString(claimSupplementalInformation.priorAuthorizationNumber) &&
@@ -313,14 +314,12 @@ function validateServiceLineSupplementalInformationArray(serviceLineSupplemental
 }
 
 function validateServiceLineReferenceInformation(serviceLineReferenceInformation: any): serviceLineReferenceInformation is { priorAuthorization: { priorAuthorizationOrReferralNumber: string }[] } {
-    console.log('serviceLineReferenceInformation.priorAuthorization: ', serviceLineReferenceInformation.priorAuthorization);
     return (
         validatePriorAuthorization(serviceLineReferenceInformation.priorAuthorization)
     )
 }
 
 function validatePriorAuthorization(priorAuthorization: any): priorAuthorization is { priorAuthorizationOrReferralNumber: string }[] {
-    console.log('priorAuthorization: ', priorAuthorization);
     return (
         isArray(priorAuthorization.priorAuthorizationOrReferralNumber, isString)
     )

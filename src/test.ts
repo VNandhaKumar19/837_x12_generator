@@ -7,10 +7,12 @@ const payload1: any = {
         "contactInformation": {
             "name": "Institutional Hospital",
             "phoneNumber": "1215550100"
-        }
+        },
+        "npi": "1323132122"
     },
     "receiver": {
-        "organizationName": "BCBS Texas - Star and Chip UB (DOS 5/1/24 & after)"
+        "organizationName": "BCBS Texas - Star and Chip UB (DOS 5/1/24 & after)",
+        "payerId": "1255"
     },
     "subscriber": {
         "memberId": "87445",
@@ -178,10 +180,12 @@ const payload: any = {
         "contactInformation": {
             "name": "Institutional Hospital",
             "phoneNumber": "1215550100"
-        }
+        },
+        "npi": "1323132122"
     },
     "receiver": {
-        "organizationName": "BCBS Texas - Star and Chip UB (DOS 5/1/24 & after)"
+        "organizationName": "BCBS Texas - Star and Chip UB (DOS 5/1/24 & after)",
+        "payerId": "1255"
     },
     "subscriber": {
         "memberId": "123456789",

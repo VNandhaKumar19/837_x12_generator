@@ -154,7 +154,8 @@ export type DiagnosisRelatedGroupInformation ={
 export type Submitter = {
     organizationName: string,
     taxId?: string,
-    contactInformation: ContactInformation
+    contactInformation: ContactInformation,
+    npi: string,
 }
 
 export type ContactInformation = {
@@ -166,7 +167,8 @@ export type ContactInformation = {
 
 export type Receiver = {
     organizationName: string,
-    taxId?: string
+    taxId?: string,
+    payerId: string
 }
 
 export type Subscriber = {
