@@ -24,7 +24,7 @@ export function generate1000B(receiver: Receiver, tradingPartnerServiceId: strin
         "Unknown2": '',
         "Unknown3": '',
         "Unknown4": '',
-        "IdentificationCodeQualifier": "PI",
+        "IdentificationCodeQualifier": "46",
         "IdentificationCode": receiver.payerId
     }
 

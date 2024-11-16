@@ -24,7 +24,7 @@ export function generate1000A(submitter: Submitter): string {
           "Unknown2": '',
           "Unknown3": '',
           "Unknown4": '',
-          "IdentificationCodeQualifier": "XX",
+          "IdentificationCodeQualifier": "46",
           "IdentificationCode": submitter.npi,
         },
         {
