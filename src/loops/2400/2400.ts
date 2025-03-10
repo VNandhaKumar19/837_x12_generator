@@ -18,15 +18,20 @@ import { generate2430 } from "./2430";
  * attachments, prior authorizations, and line adjudication information. The data is formatted as
  * objects and joined with '~' delimiter before being returned.
  */
-export function generate2400(serviceLine: ServiceLine, index: number) {
-    const procedureModifiers = serviceLine?.procedureModifiers ? serviceLine?.procedureModifiers : serviceLine?.institutionalService?.procedureModifiers
+export function generate2400(serviceLine: ServiceLine, index: number, isInstitutional: boolean = true) {
+    const procedureModifiers = serviceLine?.procedureModifiers ? serviceLine?.procedureModifiers
+        : serviceLine?.institutionalService ? serviceLine?.institutionalService?.procedureModifiers :
+            serviceLine?.professionalService ? serviceLine?.professionalService.procedureModifiers : null
 
     const data: any = [
         {
             "Segment": "LX",
             "AssignedNumber": `${index + 1}`
         },
-        {
+    ];
+
+    if (serviceLine.professionalService || (isInstitutional && serviceLine.institutionalService)) {
+        data.push(isInstitutional && serviceLine.institutionalService ? {
             "Segment": `SV2`,
             "revenueCode": serviceLine.institutionalService?.serviceLineRevenueCode ?? '',
             "CompositeMedicalProcedureIdentifier": {
@@ -40,14 +45,36 @@ export function generate2400(serviceLine: ServiceLine, index: number) {
             "MonetaryAmount": serviceLine.institutionalService.lineItemChargeAmount ? serviceLine.institutionalService.lineItemChargeAmount.toString() : '0',
             "UnitOrBasisForMeasurementCode": "UN",
             "Quantity": serviceLine.institutionalService.serviceUnitCount ?? '1',
-        },
-        {
-            "Segment": "DTP",
-            "DateTimeQualifier": "472",   // default value for serviceDate qualifier
-            "DateTimePeriodFormatQualifier": "D8",
-            "DateTimePeriod": serviceLine.serviceDate ?? ''
-        }
-    ]
+        } : serviceLine.professionalService ? {
+            "Segment": "SV1",
+            "CompositeMedicalProcedureIdentifier": {
+                "ProductServiceIDQualifier": "HC",
+                "ProductServiceID": serviceLine.professionalService.procedureCode ?? '',
+                "ProcedureModifier1": procedureModifiers && procedureModifiers[0] ? procedureModifiers[0] : '',
+                "ProcedureModifier2": procedureModifiers && procedureModifiers[1] ? procedureModifiers[1] : '',
+                "ProcedureModifier3": procedureModifiers && procedureModifiers[2] ? procedureModifiers[2] : '',
+                "ProcedureModifier4": procedureModifiers && procedureModifiers[3] ? procedureModifiers[3] : '',
+            },
+            "MonetaryAmount": serviceLine.professionalService.lineItemChargeAmount ?? '',
+            "UnitOrBasisForMeasurementCode": "UN",
+            "Quantity": serviceLine.professionalService.serviceUnitCount ?? '',
+            "Unknown1": '',
+            "Unknown2": '',
+            "CompositeMedicalProcedurePointers": {
+                "ProcedureDiagnosis1": serviceLine.professionalService.compositeDiagnosisCodePointers && serviceLine?.professionalService?.compositeDiagnosisCodePointers?.diagnosisCodePointers[0] ? serviceLine?.professionalService?.compositeDiagnosisCodePointers?.diagnosisCodePointers[0] : '',
+                "ProcedureDiagnosis2": serviceLine.professionalService.compositeDiagnosisCodePointers && serviceLine?.professionalService?.compositeDiagnosisCodePointers?.diagnosisCodePointers[1] ? serviceLine?.professionalService?.compositeDiagnosisCodePointers?.diagnosisCodePointers[1] : '',
+                "ProcedureDiagnosis3": serviceLine.professionalService.compositeDiagnosisCodePointers && serviceLine?.professionalService?.compositeDiagnosisCodePointers?.diagnosisCodePointers[2] ? serviceLine?.professionalService?.compositeDiagnosisCodePointers?.diagnosisCodePointers[2] : '',
+                "ProcedureDiagnosis4": serviceLine.professionalService.compositeDiagnosisCodePointers && serviceLine?.professionalService?.compositeDiagnosisCodePointers?.diagnosisCodePointers[3] ? serviceLine?.professionalService?.compositeDiagnosisCodePointers?.diagnosisCodePointers[3] : '',
+            },
+        } : {})
+    }
+
+    data.push({
+        "Segment": "DTP",
+        "DateTimeQualifier": "472",   // default value for serviceDate qualifier
+        "DateTimePeriodFormatQualifier": "D8",
+        "DateTimePeriod": serviceLine.serviceDate ?? ''
+    })
 
     const attachmentArray = serviceLine?.serviceLineSupplementalInformation
     if (attachmentArray && attachmentArray.length > 0) {

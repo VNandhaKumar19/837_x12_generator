@@ -28,6 +28,15 @@ export function generate2310D(renderingProvider: Provider) {
         }
     ]
 
+    if (renderingProvider.taxonomyCode) {
+        data.push({
+            "Segment": "PRV",
+            "ProviderCode": "PE",
+            "ProviderSpecialtyInformation": "PXC",
+            "ProviderClassificationCode": renderingProvider?.taxonomyCode ?? ''
+        })
+    }
+
     // Format each object and join with '~'
     const formattedString = data.map(formatObject).join('~') + '~';
     return formattedString;

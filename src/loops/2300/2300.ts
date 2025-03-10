@@ -27,7 +27,7 @@ export function generate2300(claimData: ClaimInformation) {
                 "FacilityCodeIdentifier": 'B',
                 "claimFrequencyCode": claimData?.claimFrequencyCode ?? '',
             },
-            "signatureIndicator": '',
+            "signatureIndicator": claimData?.signatureIndicator ?? '',
             "planParticipationCode": claimData?.planParticipationCode ?? '',
             "BenefitsAssignmentCode": claimData?.benefitsAssignmentCertificationIndicator ?? '',
             "ReleaseOfInformationCode": claimData?.releaseInformationCode ?? '',
@@ -54,6 +54,24 @@ export function generate2300(claimData: ClaimInformation) {
         })
     }
 
+    if (claimData?.claimDateInformation?.symptomDate) {
+        data.push({
+            "Segment": "DTP",
+            "DateTimeQualifier": "431",   // default value for AdmissionDate qualifier
+            "DateTimePeriodFormatQualifier": "D8",
+            "DateTimePeriod": claimData?.claimDateInformation?.symptomDate ?? ''
+        })
+    }
+
+    if (claimData?.claimDateInformation?.accidentDate) {
+        data.push({
+            "Segment": "DTP",
+            "DateTimeQualifier": "439",   // default value for AdmissionDate qualifier
+            "DateTimePeriodFormatQualifier": "D8",
+            "DateTimePeriod": claimData?.claimDateInformation?.accidentDate ?? ''
+        })
+    }
+
 
     if (claimData?.claimDateInformation?.dischargeHour) {
         data.push({
@@ -61,6 +79,15 @@ export function generate2300(claimData: ClaimInformation) {
             "DateTimeQualifier": "096",
             "DateTimePeriodFormatQualifier": "TM",
             "dischargeHour": claimData?.claimDateInformation?.dischargeHour ?? '',
+        })
+    }
+
+    if (claimData?.claimDateInformation?.admissionDate) {
+        data.push({
+            "Segment": "DTP",
+            "DateTimeQualifier": "435",   // default value for AdmissionDate qualifier
+            "DateTimePeriodFormatQualifier": "D8",
+            "DateTimePeriod": claimData?.claimDateInformation?.admissionDate ?? ''
         })
     }
 
@@ -76,6 +103,18 @@ export function generate2300(claimData: ClaimInformation) {
 
     if (claimData?.otherDiagnosisInformationList && claimData?.otherDiagnosisInformationList?.length > 0) {
         data.push(getHealthCareCodeInformation(claimData?.otherDiagnosisInformationList ?? []));
+    }
+
+    if (claimData?.claimSupplementalInformation?.reportInformation && claimData?.claimSupplementalInformation?.reportInformation) {
+        data.push({
+            "Segment": "PWK",
+            "reportTypeCode": claimData?.claimSupplementalInformation?.reportInformation.attachmentReportTypeCode,
+            "reportTransmissionCode": claimData?.claimSupplementalInformation?.reportInformation.attachmentTransmissionCode,
+            "reportCopiesNeeded": "",
+            "entityIdentifierCode": "",
+            "identificationCodeQualifier": "AC",
+            "identificationCode": claimData?.claimSupplementalInformation?.reportInformation.name
+        })
     }
 
     if (claimData?.principalDiagnosis) {
@@ -102,7 +141,7 @@ export function generate2300(claimData: ClaimInformation) {
     if (claimData?.conditionCodes && claimData?.conditionCodes.length) {
         data.push(getConditionCodeInformation(claimData?.conditionCodes))
     }
- 
+
     if (claimData?.occurrenceInformationList && claimData?.occurrenceInformationList.length) {
         data.push(getOccurenceCodeInformation(claimData?.occurrenceInformationList))
     }
@@ -164,7 +203,7 @@ function getHealthCareCodeInformation(diagnosis: OtherDiagnosisInformationList) 
 }
 
 
-function getConditionCodeInformation(conditioncodes : ConditionCodeList) {
+function getConditionCodeInformation(conditioncodes: ConditionCodeList) {
     const segment: StringObject = {
         "Segment": "HI",
     };
@@ -172,8 +211,8 @@ function getConditionCodeInformation(conditioncodes : ConditionCodeList) {
     if (conditioncodes && conditioncodes.length) {
         conditioncodes.forEach((code: ConditionCode, index) => {
             segment[`ConditionCodeInformation${index + 1}`] = {
-                  "CodeListQualifierCode": "BG",
-                  "ConditionCode": code.conditionCode
+                "CodeListQualifierCode": "BG",
+                "ConditionCode": code.conditionCode
             };
         })
     }
@@ -189,7 +228,7 @@ function getOccurenceCodeInformation(occurenceCode: OccurrenceInformationList) {
     if (occurenceCode && occurenceCode?.length) {
         occurenceCode.forEach((code: OccurrenceInformation, index) => {
             segment[`OccurenceCodeInformation${index + 1}`] = {
-               "CodeListQualifierCode": "BH",
+                "CodeListQualifierCode": "BH",
                 "OccurrenceCode": code.occurrenceSpanCode,
                 "DateQualifier": "D8",
                 "Date": code.occurrenceSpanCodeDate
@@ -202,13 +241,13 @@ function getOccurenceCodeInformation(occurenceCode: OccurrenceInformationList) {
 
 function getOccurenceSpanCodeInformation(occurenceSpanCode: OccurrenceSpanInformations) {
     if (occurenceSpanCode && occurenceSpanCode?.length) {
-    const segment: StringObject = {
-        "Segment": "HI",
-    };
+        const segment: StringObject = {
+            "Segment": "HI",
+        };
 
         occurenceSpanCode.forEach((code: OccurrenceSpanInformation, index) => {
             segment[`OccurenceCodeInformation${index + 1}`] = {
-               "CodeListQualifierCode": "BI",
+                "CodeListQualifierCode": "BI",
                 "OccurrenceCode": code.occurrenceSpanCode,
                 "DateQualifier": "RD8",
                 "StartDate": code.occurrenceSpanCodeStartDate + '-' + code.occurrenceSpanCodeEndDate
@@ -221,17 +260,17 @@ function getOccurenceSpanCodeInformation(occurenceSpanCode: OccurrenceSpanInform
 
 function getValueCodeInformation(valueCode: ValueInformationList) {
     if (valueCode && valueCode?.length) {
-    const segment: StringObject = {
-        "Segment": "HI",
-    };
+        const segment: StringObject = {
+            "Segment": "HI",
+        };
 
         valueCode.forEach((code: ValueInformation, index) => {
             segment[`ValueCodeInformation${index + 1}`] = {
-               "CodeListQualifierCode": "BE",
-               "ValueCode": code.valueCode,
-               "Unknown1": '',
-               "Unknown2": '',
-               "MonetaryAmount": code.valueCodeAmount
+                "CodeListQualifierCode": "BE",
+                "ValueCode": code.valueCode,
+                "Unknown1": '',
+                "Unknown2": '',
+                "MonetaryAmount": code.valueCodeAmount
             };
         })
         return segment;
@@ -240,14 +279,14 @@ function getValueCodeInformation(valueCode: ValueInformationList) {
 
 function getPatientReasonForVisits(codeVisit: PatientReasonForVisits) {
     if (codeVisit && codeVisit?.length) {
-    const segment: StringObject = {
-        "Segment": "HI",
-    };
+        const segment: StringObject = {
+            "Segment": "HI",
+        };
 
         codeVisit.forEach((code: PatientReasonForVisit, index) => {
             segment[`PatientReasonForVisit${index + 1}`] = {
-               "qualifierCode": code.qualifierCode,
-               "PatientReasonCode": code.patientReasonForVisitCode
+                "qualifierCode": code.qualifierCode,
+                "PatientReasonCode": code.patientReasonForVisitCode
             };
         })
         return segment;
@@ -256,14 +295,14 @@ function getPatientReasonForVisits(codeVisit: PatientReasonForVisits) {
 
 function getExternalCauseOfInjuries(codeInjury: ExternalCauseOfInjuries) {
     if (codeInjury && codeInjury?.length) {
-    const segment: StringObject = {
-        "Segment": "HI",
-    };
+        const segment: StringObject = {
+            "Segment": "HI",
+        };
 
         codeInjury.forEach((code: ExternalCauseOfInjury, index) => {
             segment[`ExternalCauseOfInjury${index + 1}`] = {
-               "qualifierCode": code.qualifierCode,
-               "CauseOfInjury": code.externalCauseOfInjury
+                "qualifierCode": code.qualifierCode,
+                "CauseOfInjury": code.externalCauseOfInjury
             };
         })
         return segment;

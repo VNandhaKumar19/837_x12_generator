@@ -68,7 +68,8 @@ function validateSubscriber(subscriber: any): subscriber is Subscriber {
         isString(subscriber.gender) &&
         isString(subscriber.dateOfBirth) &&
         validateAddress(subscriber.address) &&
-        isOptional(isString)(subscriber.policyNumber)
+        isOptional(isString)(subscriber.policyNumber) &&
+        isOptional(isString)(subscriber.ssn)
     );
 }
 
@@ -152,17 +153,17 @@ function validateOtherDiagnosisInformation(otherDiagnosisInformation: any): othe
     return (
         isString(otherDiagnosisInformation.qualifierCode) &&
         isString(otherDiagnosisInformation.otherDiagnosisCode)
-    ); 
+    );
 }
 
-function validateConditionCodes(conditionCodes: any): conditionCodes is ConditionCodeList{
+function validateConditionCodes(conditionCodes: any): conditionCodes is ConditionCodeList {
     return (isArray(conditionCodes, validateConditionCode))
 }
 
 function validateConditionCode(ConditionCode: any): ConditionCode is ConditionCode {
     return (
-        isString(ConditionCode.conditionCode) 
-    ); 
+        isString(ConditionCode.conditionCode)
+    );
 }
 
 function validateOccurenceCodes(occurenceCode: any): occurenceCode is OccurrenceInformationList {
@@ -173,7 +174,7 @@ function validateOccurenceCode(OccurrenceInformation: any): OccurrenceInformatio
     return (
         isString(OccurrenceInformation.occurrenceSpanCode) &&
         isString(OccurrenceInformation.occurrenceSpanCodeDate)
-    ); 
+    );
 }
 
 function validateValueCodes(valueCode: any): valueCode is ValueInformationList {
@@ -184,7 +185,7 @@ function validateValueCode(ValueInformation: any): ValueInformation is ValueInfo
     return (
         isString(ValueInformation.valueCode) &&
         isString(ValueInformation.valueCodeAmount)
-    ); 
+    );
 }
 
 function validateOccurenceSpanCodes(occurenceSpanCode: any): occurenceSpanCode is OccurrenceSpanInformations {
@@ -194,9 +195,9 @@ function validateOccurenceSpanCodes(occurenceSpanCode: any): occurenceSpanCode i
 function validateOccurenceSpanCode(OccurrenceSpanInformation: any): OccurrenceSpanInformation is OccurrenceSpanInformation {
     return (
         isString(OccurrenceSpanInformation.occurrenceSpanCode) &&
-        isString(OccurrenceSpanInformation.occurrenceSpanCodeStartDate) && 
+        isString(OccurrenceSpanInformation.occurrenceSpanCodeStartDate) &&
         isString(OccurrenceSpanInformation.occurrenceSpanCodeEndDate)
-    ); 
+    );
 }
 
 function validatePatientReasonCodes(patientCode: any): patientCode is PatientReasonForVisits {
@@ -207,7 +208,7 @@ function validatePatientReasonCode(PatientReasonForVisit: any): PatientReasonFor
     return (
         isString(PatientReasonForVisit.qualifierCode) &&
         isString(PatientReasonForVisit.patientReasonForVisitCode)
-    ); 
+    );
 }
 
 function validateInjuryCodes(injuryCode: any): injuryCode is ExternalCauseOfInjuries {
@@ -218,7 +219,7 @@ function validateInjuryCode(ExternalCauseOfInjury: any): ExternalCauseOfInjury i
     return (
         isString(ExternalCauseOfInjury.qualifierCode) &&
         isString(ExternalCauseOfInjury.externalCauseOfInjury)
-    ); 
+    );
 }
 
 function validateClaimDateInformation(claimDateInformation: any): claimDateInformation is ClaimDateInformation {
@@ -226,7 +227,10 @@ function validateClaimDateInformation(claimDateInformation: any): claimDateInfor
         isRawDateString(claimDateInformation.statementBeginDate) &&
         isRawDateString(claimDateInformation.statementEndDate) &&
         isNumberString(claimDateInformation.dischargeHour) &&
-        isNumberString(claimDateInformation.admissionDateAndHour)
+        isNumberString(claimDateInformation.admissionDateAndHour) &&
+        isOptional(isNumberString)(claimDateInformation.symptomDate) &&
+        isOptional(isNumberString)(claimDateInformation.accidentDate) &&
+        isOptional(isNumberString)(claimDateInformation.admissionDate) 
     );
 }
 
@@ -250,7 +254,7 @@ function validateClaimSupplementalInformation(claimSupplementalInformation: any)
 function validatePrincipalProcedureInformation(principalProcedureInformation: any): principalProcedureInformation is PrincipalProcedureInformation {
     return (
         isString(principalProcedureInformation.principalProcedureCode) &&
-        isString(principalProcedureInformation.principalProcedureDateTime) 
+        isString(principalProcedureInformation.principalProcedureDateTime)
     );
 }
 
@@ -302,7 +306,8 @@ function validateServiceLine(serviceLine: any): serviceLine is ServiceLine {
         isOptional(isRawDateString)(serviceLine.serviceDateEnd) &&
         isOptional(validateProcedureModifiers)(serviceLine.procedureModifiers) &&
         isOptional(isNumberString)(serviceLine.assignedNumber) &&
-        validateInstitutionalService(serviceLine.institutionalService) &&
+        isOptional(validateInstitutionalService)(serviceLine.institutionalService) &&
+        isOptional(validateInstitutionalService)(serviceLine.professionalService) &&
         isOptional(validateLineAdjudicationInformation)(serviceLine.lineAdjudicationInformation)
     );
 }

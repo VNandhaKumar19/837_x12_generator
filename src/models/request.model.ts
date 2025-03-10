@@ -49,7 +49,10 @@ export type ClaimDateInformation = {
     statementBeginDate: RawDateString,
     statementEndDate: RawDateString,
     dischargeHour: NumberString,
-    admissionDateAndHour: NumberString
+    admissionDateAndHour: NumberString,
+    symptomDate?: RawDateString,
+    accidentDate?: RawDateString,
+    admissionDate?: RawDateString,
 }
 
 export type ClaimCodeInformation = {
@@ -59,16 +62,17 @@ export type ClaimCodeInformation = {
 }
 
 export type ClaimSupplementalInformation = {
-    claimControlNumber: string;
-    reportInformation: ReportInformation,
-    priorAuthorizationNumber: string,
-    autoAccidentState: string
+    claimControlNumber?: string;
+    reportInformation?: ReportInformation,
+    priorAuthorizationNumber?: string,
+    autoAccidentState?: string
 }
 
 export type ReportInformation = {
     attachmentReportTypeCode: string,
     attachmentTransmissionCode: string,
-    attachmentControlNumber: string
+    attachmentControlNumber: string,
+    name: string
 }
 
 export type PrincipalProcedureInformation = {
@@ -94,7 +98,8 @@ export type ServiceLine = {
     serviceDateEnd?: RawDateString,
     procedureModifiers?: string[],
     assignedNumber?: NumberString,
-    institutionalService: InstitutionalService,
+    institutionalService?: InstitutionalService,
+    professionalService?: InstitutionalService,
     lineAdjudicationInformation?: LineAdjudicationInformation
 }
 
@@ -180,7 +185,8 @@ export type Subscriber = {
     gender: string,
     dateOfBirth: string,
     address: Address,
-    policyNumber: string
+    policyNumber: string,
+    ssn?: string
 }
 
 export type Address = {

@@ -22,7 +22,7 @@ import { formatObject } from "../../../utils/global";
  * separator before being returned.
  */
 export function generate2010BA(subscriber: Subscriber, dependent: Dependent | undefined, claimInformation: ClaimInformation) {
-    const data = [
+    const data: Record<string, string>[] = [
         {
             "Segment": "SBR",
             "PayerResponsibilitySequenceNumberCode": subscriber?.paymentResponsibilityLevelCode ?? '',
@@ -64,6 +64,14 @@ export function generate2010BA(subscriber: Subscriber, dependent: Dependent | un
             "Gender": subscriber?.gender ?? ''
         }
     ]
+
+    if(subscriber.ssn) {
+        data.push({
+            "Segment": "Ref",
+            "ReferenceIdentificationQualifier": 'SY',
+            "ReferenceIdentification": subscriber?.ssn ?? ''
+        })
+    }
 
     // Format each object and join with '~'
     const formattedString = data.map(formatObject).join('~');
