@@ -14,7 +14,7 @@ import { formatObject } from "../../utils/global"
  * CLM, DTP, CL1, HI, and REF, each with specific data fields related to the claim. The data is
  * formatted and joined with '~' as a delimiter before being returned.
  */
-export function generate2300(claimData: ClaimInformation) {
+export function generate2300(claimData: ClaimInformation, isWorkComp: boolean = false) {
     const data: any = [
         {
             "Segment": "CLM",
@@ -31,6 +31,8 @@ export function generate2300(claimData: ClaimInformation) {
             "planParticipationCode": claimData?.planParticipationCode ?? '',
             "BenefitsAssignmentCode": claimData?.benefitsAssignmentCertificationIndicator ?? '',
             "ReleaseOfInformationCode": claimData?.releaseInformationCode ?? '',
+            "unknown1": "",
+            "RelatedCauseCode": isWorkComp ? "EM" : ""
         },
 
     ]

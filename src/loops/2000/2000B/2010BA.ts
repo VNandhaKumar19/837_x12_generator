@@ -21,7 +21,7 @@ import { formatObject } from "../../../utils/global";
  * address, date of birth, and gender. The data objects are formatted and joined with a tilde (~)
  * separator before being returned.
  */
-export function generate2010BA(subscriber: Subscriber, dependent: Dependent | undefined, claimInformation: ClaimInformation) {
+export function generate2010BA(subscriber: Subscriber, dependent: Dependent | undefined, claimInformation: ClaimInformation, isWorkComp: boolean = false) {
     const data: Record<string, string>[] = [
         {
             "Segment": "SBR",
@@ -38,8 +38,8 @@ export function generate2010BA(subscriber: Subscriber, dependent: Dependent | un
         {
             "Segment": "NM1",
             "EntityIdentifierCode": "IL",
-            "EntityTypeQualifier": "1",
-            "LastName": subscriber?.lastName ?? '',
+            "EntityTypeQualifier": isWorkComp ? "2" : "1",
+            "LastName": subscriber?.lastName ?? '', //for work comp we will receive organization name in last name
             "FirstName": subscriber?.firstName ?? '',
             'unknown1': '',
             'unknown2': '',

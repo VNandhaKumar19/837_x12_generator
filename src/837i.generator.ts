@@ -45,7 +45,7 @@ import { validateRequestBody } from "./utils/validator";
  * (EDI) document in X12 format. The document contains various segments such as ISA, GS, ST, BHT,
  * 1000A, 1000B, 2000A, 2000B, 2300, 2310A, 2310B, 2310D, 2310E, 2310F, 2310G, 2400, SE, GE, and IEA.
  */
-export function generate837I(payload: RequestBody, userName: string, isaCtrlNumber?: number, gsCtrlNumber?: number) {
+export function generate837I(payload: RequestBody, userName: string, isWorkComp: boolean = false, isaCtrlNumber?: number, gsCtrlNumber?: number) {
 
     if (!validateRequestBody(payload)) {
         throw Error('Invalid Request Body');
@@ -73,9 +73,9 @@ export function generate837I(payload: RequestBody, userName: string, isaCtrlNumb
         { type: '1000A', value: generate1000A(payload?.submitter) }, // Submitter
         { type: '1000B', value: generate1000B(payload?.receiver, payload?.tradingPartnerServiceId) }, // Receiver
         { type: '2000A', value: billingProvider ? generate2000A(billingProvider) : '' }, // Billing Provider
-        { type: '2000B', value: generate2000B(payload, payerAddress) }, // Payer
+        { type: '2000B', value: generate2000B(payload, payerAddress, isWorkComp) }, // Payer
         { type: '2000C', value: payload?.dependent ? generate2000C(payload?.dependent) : '' }, // Dependent
-        { type: '2300', value: generate2300(payload?.claimInformation) }, // Claim Information
+        { type: '2300', value: generate2300(payload?.claimInformation, isWorkComp) }, // Claim Information
         { type: '2310A', value: attendingProvider ? generate2310A(attendingProvider) : '' }, // Attending Provider (optional)
         { type: '2310B', value: operatingPhysician ? generate2310B(operatingPhysician) : '' }, // Operating Physician (optional)
         { type: '2310D', value: renderingProvider ? generate2310D(renderingProvider) : '' }, // Rendering Provider

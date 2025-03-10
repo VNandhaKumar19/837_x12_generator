@@ -22,7 +22,7 @@ import { generateST } from "./segments/ST";
 import { getControlNumber, getCurrentDate, getCurrentTime } from "./utils/global";
 import { validateRequestBody } from "./utils/validator";
 
-export function generate837P(payload: RequestBody, userName: string, isaCtrlNumber?: number, gsCtrlNumber?: number) {
+export function generate837P(payload: RequestBody, userName: string, isWorkComp: boolean = false, isaCtrlNumber?: number, gsCtrlNumber?: number) {
 
     if (!validateRequestBody(payload)) {
         throw Error('Invalid Request Body');
@@ -44,15 +44,15 @@ export function generate837P(payload: RequestBody, userName: string, isaCtrlNumb
 
     const x12DataArray = [
         { type: 'ISA', value: generateISA(userName, ISACtrlNumber, getCurrentDate('isa'), time) }, // Interchange Control Header
-        { type: 'GS', value: generateGS(userName, GSCtrlNumber, date, time) }, // Functional Group Header
-        { type: 'ST', value: generateST(payload?.controlNumber) }, // Transaction Set Header
+        { type: 'GS', value: generateGS(userName, GSCtrlNumber, date, time, false) }, // Functional Group Header
+        { type: 'ST', value: generateST(payload?.controlNumber, false) }, // Transaction Set Header
         { type: 'BHT', value: generateBHT(payload?.controlNumber, date, time) }, // Beginning of Hierarchy
         { type: '1000A', value: generate1000A(payload?.submitter) }, // Submitter
         { type: '1000B', value: generate1000B(payload?.receiver, payload?.tradingPartnerServiceId) }, // Receiver
         { type: '2000A', value: billingProvider ? generate2000A(billingProvider) : '' }, // Billing Provider
-        { type: '2000B', value: generate2000B(payload, payerAddress) }, // Payer
+        { type: '2000B', value: generate2000B(payload, payerAddress, isWorkComp) }, // Payer
         { type: '2000C', value: payload?.dependent ? generate2000C(payload?.dependent) : '' }, // Dependent
-        { type: '2300', value: generate2300(payload?.claimInformation) }, // Claim Information
+        { type: '2300', value: generate2300(payload?.claimInformation, isWorkComp) }, // Claim Information
         { type: '2310A', value: attendingProvider ? generate2310A(attendingProvider) : '' }, // Attending Provider (optional)
         { type: '2310B', value: operatingPhysician ? generate2310B(operatingPhysician) : '' }, // Operating Physician (optional)
         { type: '2310D', value: renderingProvider ? generate2310D(renderingProvider) : '' }, // Rendering Provider
@@ -64,7 +64,7 @@ export function generate837P(payload: RequestBody, userName: string, isaCtrlNumb
 
     if (payload?.claimInformation?.serviceLines) {
         payload?.claimInformation?.serviceLines.forEach((serviceLine, index) => {
-            x12DataArray.push({ type: '2400', value: generate2400(serviceLine, index) }) // Service Line
+            x12DataArray.push({ type: '2400', value: generate2400(serviceLine, index, false) }) // Service Line
         })
     }
 

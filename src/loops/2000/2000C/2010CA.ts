@@ -11,11 +11,11 @@ import { formatObject } from "../../../utils/global";
  * information like relationship code, name, address, date of birth, and gender. The data objects are
  * formatted and joined with a tilde (~) separator before being
  */
-export function generate2010CA(dependent: Dependent) {
-    const data = [
+export function generate2010CA(dependent: Dependent, caseId: string = '') {
+    const data: Record<string, string>[] = [
         {
             "Segment": "PAT",
-            "IndividualRelationshipCode": dependent ? dependent?.relationshipToSubscriberCode : '18',
+            "IndividualRelationshipCode": dependent ? dependent?.relationshipToSubscriberCode : '18', // 20 for employee
 
         },
         {
@@ -42,6 +42,22 @@ export function generate2010CA(dependent: Dependent) {
             "Gender": dependent?.gender ?? ''
         },
     ]
+
+    if (caseId) {
+        data.push({
+            "Segment": "Ref",
+            "Qualifier": "Y4",
+            "AgencyClaimNumber": caseId
+        })
+    }
+
+    if (dependent.ssn || caseId) {
+        data.push({
+            "Segment": "Ref",
+            "Qualifier": "SY",
+            "AgencyClaimNumber": dependent.ssn ?? '999999999'
+        })
+    }
 
     // Format each object and join with '~'
     const formattedString = data.map(formatObject).join('~');

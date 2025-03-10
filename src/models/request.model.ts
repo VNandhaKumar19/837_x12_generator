@@ -205,7 +205,8 @@ export type Dependent = {
     relationshipToSubscriberCode: string,
     firstName: string,
     lastName: string,
-    dateOfBirth: string
+    dateOfBirth: string,
+    ssn?: string
 }
 
 export type Providers = Array<Provider>;
